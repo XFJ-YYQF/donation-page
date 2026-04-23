@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>支持我 · 请我喝杯咖啡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --ink: #1a1209;
+      --ink-light: #4a3728;
+      --paper: #faf7f2;
+      --paper-warm: #f5ede0;
+      --gold: #c8963e;
+      --gold-light: #e8b86d;
+      --gold-pale: #f9ecd4;
+      --red: #c0392b;
+      --green: #27ae60;
+      --border: rgba(200, 150, 62, 0.25);
+      --shadow: rgba(26, 18, 9, 0.08);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Background texture ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(232, 184, 109, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 90%, rgba(200, 150, 62, 0.10) 0%, transparent 60%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 56px;
+      animation: fadeUp 0.8s ease both;
+    }
+
+    .header-eyebrow {
+      font-family: 'Noto Sans SC', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 7vw, 64px);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .header h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .header-sub {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--ink-light);
+      margin-top: 16px;
+      line-height: 1.8;
+      max-width: 460px;
+      margin-inline: auto;
+    }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 28px auto;
+    }
+
+    /* ── Avatar ── */
+    .avatar-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 32px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+
+    .avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      border: 3px solid var(--gold-light);
+      box-shadow: 0 0 0 6px var(--gold-pale), 0 8px 32px var(--shadow);
+      object-fit: cover;
+      /* placeholder gradient if no image */
+      background: linear-gradient(135deg, var(--gold-pale), var(--paper-warm));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+    }
+
+    /* ── Message card ── */
+    .message-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-bottom: 40px;
+      box-shadow: 0 2px 24px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.8);
+      animation: fadeUp 0.8s 0.2s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .message-card::before {
+      content: '❝';
+      position: absolute;
+      top: -12px;
+      left: 28px;
+      font-size: 80px;
+      color: var(--gold-pale);
+      font-family: serif;
+      line-height: 1;
+    }
+
+    .message-card p {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 15px;
+      line-height: 2;
+      color: var(--ink-light);
+      position: relative;
+      z-index: 1;
+    }
+
+    .message-card p + p {
+      margin-top: 12px;
+    }
+
+    /* ── Section title ── */
+    .section-title {
+      text-align: center;
+      font-family: 'Noto Serif SC', serif;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before,
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border));
+    }
+    .section-title::after {
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+
+    /* ── QR Grid ── */
+    .qr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 40px;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+
+    @media (max-width: 520px) {
+      .qr-grid { grid-template-columns: 1fr; }
+    }
+
+    .qr-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: 0 2px 16px var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .qr-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 32px var(--shadow);
+    }
+
+    .qr-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .qr-card.wechat::after { background: radial-gradient(circle at 50% 0%, rgba(39, 174, 96, 0.07), transparent 70%); }
+    .qr-card.alipay::after  { background: radial-gradient(circle at 50% 0%, rgba(0, 122, 255, 0.07), transparent 70%); }
+    .qr-card:hover::after { opacity: 1; }
+
+    .qr-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .qr-brand.wechat { color: var(--green); }
+    .qr-brand.alipay { color: #1677ff; }
+
+    .qr-brand svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+    .qr-frame {
+      width: 180px;
+      height: 180px;
+      margin: 0 auto 16px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: var(--paper-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .qr-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Placeholder shown when no image */
+    .qr-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: #bba98a;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-align: center;
+      padding: 12px;
+      line-height: 1.6;
+    }
+
+    .qr-placeholder svg {
+      width: 48px;
+      height: 48px;
+      opacity: 0.4;
+    }
+
+    .qr-hint {
+      font-size: 12px;
+      color: #a89070;
+      line-height: 1.5;
+    }
+
+    /* ── Aifadian / external links ── */
+    .links-section {
+      animation: fadeUp 0.8s 0.4s ease both;
+      margin-bottom: 40px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 22px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 2px 12px var(--shadow);
+    }
+
+    .link-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 24px var(--shadow);
+      border-color: var(--gold-light);
+    }
+
+    .link-card + .link-card {
+      margin-top: 12px;
+    }
+
+    .link-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .link-icon.afd   { background: #fff1f0; }
+    .link-icon.ko    { background: #fff8e1; }
+    .link-icon.github { background: #f0f0f0; }
+
+    .link-text { flex: 1; min-width: 0; }
+    .link-label {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .link-url {
+      font-size: 12px;
+      color: #a89070;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .link-arrow {
+      color: var(--gold);
+      font-size: 18px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .link-card:hover .link-arrow { transform: translateX(4px); }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+
+    .footer-thanks {
+      font-family: 'Noto Serif SC', serif;
+      font-size: 14px;
+      color: #a89070;
+      line-height: 1.8;
+    }
+
+    .footer-heart {
+      display: inline-block;
+      color: var(--red);
+      animation: heartbeat 1.6s ease infinite;
+    }
+
+    .footer-name {
+      margin-top: 28px;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      14%       { transform: scale(1.2); }
+      28%       { transform: scale(1); }
+      42%       { transform: scale(1.15); }
+      56%       { transform: scale(1); }
+    }
+
+    /* ── Config notice (dev only) ── */
+    .config-notice {
+      background: #fffbeb;
+      border: 1px solid #fcd34d;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #92400e;
+      margin-bottom: 20px;
+      display: none; /* hidden by default; shown via JS if placeholders detected */
+      line-height: 1.6;
+    }
+    .config-notice.visible { display: block; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+
+    <!-- ── Avatar ── -->
+    <div class="avatar-wrap">
+      <!--
+        换成你自己的头像：
+        <img class="avatar" src="avatar.jpg" alt="头像" />
+        或者直接用 emoji：
+      -->
+      <div class="avatar">☕</div>
+    </div>
+
+    <!-- ── Header ── -->
+    <header class="header">
+      <p class="header-eyebrow">Support My Work</p>
+      <h1>请我喝杯<em>咖啡</em></h1>
+      <div class="divider"></div>
+      <p class="header-sub">
+        <!-- 👇 修改这里的标语 -->
+        你的支持是我持续创作的动力。<br>哪怕一杯咖啡的心意，都让我无比温暖 🌿
+      </p>
+    </header>
+
+    <!-- ── Message ── -->
+    <div class="message-card">
+      <p>
+        <!-- 👇 修改这里的个人介绍 / 感谢语 -->
+        Hi，我是 <strong>你的名字</strong>，一个热爱 _____ 的独立创作者。我在这里分享 _____，希望能帮助到你。
+      </p>
+      <p>
+        所有内容均免费提供。如果我的作品为你带来了价值，欢迎用任意金额支持我继续前行。感谢每一位慷慨的朋友 💛
+      </p>
+    </div>
+
+    <!-- ── QR Codes ── -->
+    <p class="section-title">扫码赞赏</p>
+
+    <div class="qr-grid">
+      <!-- 微信支付 -->
+      <div class="qr-card wechat">
+        <div class="qr-brand wechat">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-3.895-6.348-7.596-6.348zM5.785 5.991c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178A1.17 1.17 0 0 1 4.623 7.17c0-.651.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.529 1.162 1.18a1.17 1.17 0 0 1-1.162 1.178 1.17 1.17 0 0 1-1.162-1.178c0-.651.52-1.18 1.162-1.18zm5.34 2.867c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.582.582 0 0 1-.023-.156.49.49 0 0 1 .201-.398C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.934 2.555c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972zm4.947 0c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972z"/></svg>
+          微信支付
+        </div>
+        <div class="qr-frame">
+          <!--
+            👇 将 wechat-qr.png 放到项目根目录并替换下方图片路径
+            <img src="wechat-qr.png" alt="微信收款码" />
+          -->
+          <div class="qr-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <path d="M14 14h1v1h-1zM17 14h1v1h-1zM20 14h1v1h-1zM14 17h1v1h-1zM17 17h2v2h-2zM20 20h1v1h-1z"/>
+            </svg>
+            将你的微信收款码<br>命名为 <strong>wechat-qr.png</strong><br>放入项目根目录
+          </div>
+        </div>
+        <p class="qr-hint">打开微信 · 扫一扫</p>
+      </div>
+
+      <!-- 支付宝 -->
+      <div class="qr-card alipay">
+        <div class="qr-brand alipay">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.422 15.358c-3.83-1.153-6.055-1.84-7.766-2.358.802-1.422 1.328-3.042 1.526-4.817H18V6.817h-4.002V5h-2.443v1.817H7.578V8.183h6.607c-.175 1.367-.56 2.61-1.11 3.658-1.4-.38-2.96-.722-4.612-.837C5.196 10.745 2 12.44 2 15.65 2 18.055 4.02 20 6.52 20c2.73 0 5.428-1.77 7.306-4.728 2.155.837 4.552 1.86 6.884 3.03L22 17.24a35.028 35.028 0 0 0-.578-.882zM6.52 18.124C4.98 18.124 4 17.074 4 15.65c0-1.768 1.593-2.9 3.558-2.69 1.418.155 2.75.526 3.988.96C9.98 16.8 8.22 18.124 6.52 18.124z"/></svg>
+          支付宝
+        </div>
+        <div class="qr-frame">
+          <!--
+            👇 将 alipay-qr.png 放到项目根目录并替换下方图片路径
+            <img src="alipay-qr.png" alt="支付宝收款码" />
+          -->
+          <div class="qr-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <path d="M14 14h1v1h-1zM17 14h1v1h-1zM20 14h1v1h-1zM14 17h1v1h-1zM17 17h2v2h-2zM20 20h1v1h-1z"/>
+            </svg>
+            将你的支付宝收款码<br>命名为 <strong>alipay-qr.png</strong><br>放入项目根目录
+          </div>
+        </div>
+        <p class="qr-hint">打开支付宝 · 扫一扫</p>
+      </div>
+    </div>
+
+    <!-- ── External links ── -->
+    <p class="section-title">更多方式</p>
+
+    <div class="links-section">
+
+      <!-- 爱发电 -->
+      <a class="link-card" href="https://afdian.com/a/YOUR_USERNAME" target="_blank" rel="noopener" id="afd-link">
+        <div class="link-icon afd">⚡</div>
+        <div class="link-text">
+          <div class="link-label">爱发电</div>
+          <!-- 👇 替换为你的爱发电主页链接 -->
+          <div class="link-url" id="afd-url">afdian.com/a/YOUR_USERNAME</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+
+      <!-- 可选：Ko-fi（国际赞助平台） -->
+      <!--
+      <a class="link-card" href="https://ko-fi.com/YOUR_USERNAME" target="_blank" rel="noopener">
+        <div class="link-icon ko">☕</div>
+        <div class="link-text">
+          <div class="link-label">Ko-fi</div>
+          <div class="link-url">ko-fi.com/YOUR_USERNAME</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      -->
+
+      <!-- 可选：GitHub Sponsors -->
+      <!--
+      <a class="link-card" href="https://github.com/sponsors/YOUR_USERNAME" target="_blank" rel="noopener">
+        <div class="link-icon github">🐙</div>
+        <div class="link-text">
+          <div class="link-label">GitHub Sponsors</div>
+          <div class="link-url">github.com/sponsors/YOUR_USERNAME</div>
+        </div>
+        <div class="link-arrow">→</div>
+      </a>
+      -->
+    </div>
+
+    <!-- ── Footer ── -->
+    <footer class="footer">
+      <p class="footer-thanks">
+        每一份支持都让创作更有意义<br>
+        谢谢你 <span class="footer-heart">♥</span> 真的
+      </p>
+      <!-- 👇 替换为你的名字或署名 -->
+      <p class="footer-name">— 你的名字</p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Auto-replace placeholder image containers with actual images if they exist
+    // This runs silently and gracefully falls back to placeholders if images are missing.
+    function tryLoadQR(imgSrc, frameEl) {
+      const img = new Image();
+      img.onload = () => {
+        frameEl.innerHTML = '';
+        frameEl.appendChild(img);
+        img.alt = imgSrc.includes('wechat') ? '微信收款码' : '支付宝收款码';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
+      };
+      img.src = imgSrc;
+    }
+
+    const frames = document.querySelectorAll('.qr-frame');
+    tryLoadQR('wechat-qr.png', frames[0]);
+    tryLoadQR('alipay-qr.png', frames[1]);
+  </script>
+</body>
+</html>
