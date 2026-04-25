@@ -2,7 +2,9 @@
 
 一个精美的个人捐赠页面，支持微信支付、支付宝、爱发电等，可一键部署到 Vercel。
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_USERNAME/donation-page)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/XFJ-YYQF/donation-page)
+
+Powered by Claude
 
 ---
 
@@ -11,7 +13,6 @@
 - 📱 响应式设计，移动端完美适配
 - 🟢 微信支付 & 支付宝 收款二维码
 - ⚡ 爱发电主页链接（可扩展 Ko-fi、GitHub Sponsors）
-- 🎨 优雅的暖金色设计风格
 - ⚡ 纯静态，零依赖，部署秒级完成
 
 ---
