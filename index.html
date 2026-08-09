@@ -6,24 +6,28 @@
   <title>支持我的创作</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --accent:   #FF4D2E;
-      --ink:      #111;
-      --muted:    #888;
-      --border:   #e8e8e8;
+      --accent:      #39C5BB;
+      --accent-dark: #1FA69C;
+      --accent-tint: #E6FAF8;
+      --ink:      #14201f;
+      --muted:    #8a9694;
+      --border:   #e7edec;
       --bg:       #fff;
-      --hover-bg: #fafafa;
+      --hover-bg: #F7FCFB;
+      --shadow:   0 10px 30px -12px rgba(20,32,31,.12);
+      --ease:     cubic-bezier(.22,.9,.32,1);
     }
 
-    html { -webkit-text-size-adjust: 100%; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
     body {
-      font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+      font-family: 'Nunito', 'Noto Sans SC', sans-serif;
       background: var(--bg);
       color: var(--ink);
       min-height: 100vh;
@@ -32,87 +36,106 @@
 
     a, button { -webkit-tap-highlight-color: transparent; }
 
-    /* ── Layout ── */
+    /* ── Layout shell ── */
     .page {
-      max-width: 520px;
+      max-width: 1040px;
       margin: 0 auto;
-      padding: clamp(44px, 11vw, 72px) 24px 80px;
+      padding: clamp(40px, 8vw, 76px) 24px 64px;
     }
 
-    /* ── Stagger animation ── */
-    .page > * {
-      opacity: 0;
-      transform: translateY(16px);
-      animation: up .5s ease forwards;
+    .layout {
+      display: block;
     }
-    .page > *:nth-child(1)  { animation-delay: .00s }
-    .page > *:nth-child(2)  { animation-delay: .05s }
-    .page > *:nth-child(3)  { animation-delay: .10s }
-    .page > *:nth-child(4)  { animation-delay: .15s }
-    .page > *:nth-child(5)  { animation-delay: .20s }
-    .page > *:nth-child(6)  { animation-delay: .25s }
-    .page > *:nth-child(7)  { animation-delay: .30s }
-    .page > *:nth-child(8)  { animation-delay: .34s }
-    .page > *:nth-child(9)  { animation-delay: .38s }
-    .page > *:nth-child(10) { animation-delay: .42s }
-    .page > *:nth-child(11) { animation-delay: .46s }
-    .page > *:nth-child(12) { animation-delay: .50s }
-    .page > *:nth-child(13) { animation-delay: .54s }
+
+    .col-side { margin-top: 48px; }
+
+    @media (min-width: 880px) {
+      .layout {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 64px;
+        align-items: start;
+      }
+      .col-side {
+        margin-top: 0;
+        position: sticky;
+        top: 40px;
+      }
+    }
+
+    /* ── Stagger fade-in (driven by --i custom property per element) ── */
+    .col-main > *, .col-side > * {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: up .55s var(--ease) forwards;
+      animation-delay: calc(var(--i, 0) * 0.055s);
+    }
 
     @keyframes up {
       to { opacity: 1; transform: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .page > * { animation: none; opacity: 1; transform: none; }
+      .col-main > *, .col-side > * { animation: none; opacity: 1; transform: none; }
+      html { scroll-behavior: auto; }
     }
 
     /* ── Header ── */
     .eyebrow {
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 700;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 20px;
+      color: var(--accent-dark);
+      margin-bottom: 18px;
     }
 
     h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(36px, 9vw, 56px);
-      line-height: 1.1;
-      letter-spacing: -.02em;
+      font-family: 'Baloo 2', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
+      font-size: clamp(38px, 7vw, 58px);
+      line-height: 1.12;
+      letter-spacing: -.01em;
       color: var(--ink);
       margin-bottom: 20px;
     }
 
     h1 i {
-      font-style: italic;
+      font-style: normal;
       color: var(--accent);
     }
 
     .desc {
       font-size: 15px;
-      line-height: 1.75;
+      line-height: 1.8;
       color: var(--muted);
-      font-weight: 300;
-      margin-bottom: 28px;
+      font-weight: 400;
+      margin-bottom: 30px;
     }
+
+    .desc strong { color: var(--ink); font-weight: 700; }
 
     /* ── Mascot images ── */
     .mascot-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
 
     .mascot {
       border: 1px solid var(--border);
-      border-radius: 16px;
+      border-radius: 20px;
       overflow: hidden;
-      background: #f6f6f6;
+      background: var(--hover-bg);
       aspect-ratio: 1 / 1;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease);
+    }
+
+    .mascot:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow);
+      border-color: transparent;
     }
 
     .mascot img {
@@ -120,10 +143,10 @@
       height: 100%;
       object-fit: contain;
       display: block;
-      transition: transform .35s ease;
+      transition: transform .4s var(--ease);
     }
 
-    .mascot:hover img { transform: scale(1.04); }
+    .mascot:hover img { transform: scale(1.05); }
 
     @media (max-width: 380px) {
       .mascot-row { gap: 8px; }
@@ -133,14 +156,14 @@
     hr {
       border: none;
       border-top: 1px solid var(--border);
-      margin-bottom: 32px;
+      margin-bottom: 30px;
     }
 
     /* ── Section label ── */
     .label {
       font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .15em;
+      font-weight: 700;
+      letter-spacing: .14em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 16px;
@@ -151,7 +174,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 48px;
+      margin-bottom: 44px;
     }
 
     @media (max-width: 440px) {
@@ -160,15 +183,16 @@
 
     .qr-box {
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 22px;
       text-align: center;
-      transition: border-color .18s, background .18s;
+      transition: transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
     }
 
     .qr-box:hover {
-      border-color: #ccc;
-      background: var(--hover-bg);
+      transform: translateY(-3px);
+      border-color: transparent;
+      box-shadow: var(--shadow);
     }
 
     .qr-brand {
@@ -176,7 +200,7 @@
       align-items: center;
       gap: 6px;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 700;
       margin-bottom: 14px;
     }
     .qr-brand.wx  { color: #07C160; }
@@ -187,8 +211,8 @@
       width: 152px;
       height: 152px;
       margin: 0 auto 12px;
-      border-radius: 8px;
-      background: #f4f4f4;
+      border-radius: 12px;
+      background: var(--hover-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -219,7 +243,7 @@
       color: #aaa;
       background: #ececec;
       padding: 1px 5px;
-      border-radius: 3px;
+      border-radius: 4px;
     }
 
     .qr-tip {
@@ -231,8 +255,8 @@
     .link-list {
       display: flex;
       flex-direction: column;
-      gap: 2px;
-      margin-bottom: 56px;
+      gap: 3px;
+      margin-bottom: 48px;
     }
 
     .link-item {
@@ -240,36 +264,68 @@
       align-items: center;
       gap: 14px;
       padding: 14px 12px;
-      border-radius: 10px;
+      border-radius: 14px;
       text-decoration: none;
       color: var(--ink);
-      transition: background .15s;
+      transition: background .2s var(--ease), transform .2s var(--ease);
     }
 
-    .link-item:hover { background: var(--hover-bg); }
+    .link-item:hover { background: var(--hover-bg); transform: translateX(2px); }
 
     .link-dot {
       width: 36px; height: 36px;
-      border-radius: 9px;
-      background: #f2f2f2;
+      border-radius: 12px;
+      background: var(--accent-tint);
       display: flex; align-items: center; justify-content: center;
       font-size: 17px;
       flex-shrink: 0;
     }
 
     .link-info { flex: 1; min-width: 0; }
-    .link-name { font-size: 14px; font-weight: 500; line-height: 1; margin-bottom: 3px; }
+    .link-name { font-size: 14px; font-weight: 700; line-height: 1; margin-bottom: 3px; }
     .link-href { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-    .link-chevron { color: #ccc; font-size: 18px; flex-shrink: 0; transition: color .15s, transform .15s; }
+    .link-chevron { color: #ccc; font-size: 18px; flex-shrink: 0; transition: color .2s, transform .2s; }
     .link-item:hover .link-chevron { color: var(--accent); transform: translateX(2px); }
+
+    /* ── Total raised stat ── */
+    .stat-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 26px 24px;
+      margin-bottom: 20px;
+      background: linear-gradient(160deg, var(--accent-tint), #fff 65%);
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent-dark);
+      letter-spacing: .08em;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-family: 'Baloo 2', 'Noto Sans SC', sans-serif;
+      font-size: clamp(30px, 5vw, 38px);
+      font-weight: 700;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.15;
+    }
+
+    .stat-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
 
     /* ── Leaderboard ── */
     .board {
       display: flex;
       flex-direction: column;
       gap: 2px;
-      margin-bottom: 56px;
     }
 
     .board-state {
@@ -281,8 +337,8 @@
 
     .board-row {
       padding: 14px 12px;
-      border-radius: 10px;
-      transition: background .15s;
+      border-radius: 14px;
+      transition: background .2s var(--ease);
     }
 
     .board-row:hover { background: var(--hover-bg); }
@@ -294,30 +350,51 @@
     }
 
     .board-rank {
-      width: 26px;
-      height: 26px;
+      width: 27px;
+      height: 27px;
       border-radius: 50%;
-      background: #f2f2f2;
+      background: #f1f4f3;
       color: var(--muted);
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
       margin-top: 1px;
     }
-    .board-rank.r1 { background: #FFF0EB; color: var(--accent); font-weight: 700; }
-    .board-rank.r2 { background: #F1F1F1; color: #666; font-weight: 700; }
-    .board-rank.r3 { background: #FBF2E6; color: #B5793A; font-weight: 700; }
+    .board-rank.r1 {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 0 4px var(--accent-tint);
+      animation: glow 2.6s ease-in-out infinite;
+    }
+    .board-rank.r2 { background: #eef0f0; color: #667; }
+    .board-rank.r3 { background: #FCF1E1; color: #B5793A; }
+
+    @keyframes glow {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-tint); }
+      50%      { box-shadow: 0 0 0 7px var(--accent-tint); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .board-rank.r1 { animation: none; }
+    }
 
     .board-main { flex: 1; min-width: 0; }
 
     .board-name {
       font-size: 14px;
-      font-weight: 500;
+      font-weight: 700;
       margin-bottom: 5px;
       word-break: break-word;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .board-name .anon-icon {
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .board-sub {
@@ -330,18 +407,24 @@
     }
 
     .board-amount {
-      font-weight: 500;
-      color: var(--ink);
+      font-weight: 700;
+      color: var(--accent-dark);
       font-size: 13px;
       font-variant-numeric: tabular-nums;
     }
 
     .board-channel-tag {
-      background: #f2f2f2;
+      background: var(--hover-bg);
       color: var(--muted);
       padding: 2px 9px;
       border-radius: 20px;
       font-size: 11px;
+    }
+
+    .board-note {
+      font-size: 12px;
+      color: #b7bfbd;
+      margin-top: 4px;
     }
 
     .board-more-toggle {
@@ -349,12 +432,13 @@
       background: none;
       padding: 4px 0;
       font-size: 12px;
-      color: var(--accent);
+      color: var(--accent-dark);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 3px;
       font-family: inherit;
+      font-weight: 600;
     }
 
     .board-more-toggle .chev {
@@ -385,7 +469,7 @@
 
     .board-record .rec-amount {
       color: var(--ink);
-      font-weight: 500;
+      font-weight: 700;
       font-variant-numeric: tabular-nums;
     }
 
@@ -395,7 +479,7 @@
       font-size: 11px;
     }
 
-    /* ── Footer ── */
+    /* ── Footer (thank-you note) ── */
     footer {
       font-size: 13px;
       color: #bbb;
@@ -404,7 +488,7 @@
 
     footer strong {
       color: var(--ink);
-      font-weight: 500;
+      font-weight: 700;
     }
 
     .heart { color: var(--accent); display: inline-block; animation: beat 1.4s ease infinite; }
@@ -421,7 +505,7 @@
     /* ── Site footer ── */
     .site-footer {
       border-top: 1px solid var(--border);
-      margin-top: 64px;
+      margin-top: 56px;
       padding-top: 28px;
       display: flex;
       flex-direction: column;
@@ -442,12 +526,12 @@
       align-items: center;
       gap: 5px;
       font-size: 12px;
-      font-weight: 500;
-      color: #999;
+      font-weight: 600;
+      color: #99a3a1;
       text-decoration: none;
       padding: 4px 8px;
-      border-radius: 6px;
-      transition: color .15s, background .15s;
+      border-radius: 8px;
+      transition: color .2s, background .2s;
     }
 
     .site-footer-link:hover {
@@ -471,138 +555,133 @@
     .powered a {
       color: #aaa;
       text-decoration: none;
-      font-weight: 500;
-      transition: color .15s;
+      font-weight: 600;
+      transition: color .2s;
     }
 
-    .powered a:hover { color: var(--accent); }
+    .powered a:hover { color: var(--accent-dark); }
 
     /* ── Small-screen refinements ── */
     @media (max-width: 380px) {
       .page { padding-left: 18px; padding-right: 18px; }
       .desc { margin-bottom: 24px; }
       hr { margin-bottom: 26px; }
-      .qr-row, .link-list, .board { margin-bottom: 40px; }
+      .qr-row, .link-list { margin-bottom: 36px; }
       .qr-img { width: 128px; height: 128px; }
+      .stat-card { padding: 20px 18px; }
     }
   </style>
 </head>
 <body>
 <div class="page">
+  <div class="layout">
 
-  <p class="eyebrow">Support my work</p>
+    <div class="col-main">
 
-  <h1>请我吃碗<br><i>面条</i> 🍜</h1>
+      <p class="eyebrow" style="--i:0">Support my work</p>
 
-  <p class="desc">
-    <!-- 👇 改成你自己的简介 / 感谢语 -->
-    我是 <strong style="color:var(--ink);font-weight:500">夜桜侵雪</strong>，独立创作者。<br>
-    所有内容免费开放——如果对你有帮助，欢迎用任意金额支持我继续做下去。
-  </p>
+      <h1 style="--i:1">请我喝杯<br><i>咖啡</i> ☕</h1>
 
-  <div class="mascot-row">
-    <div class="mascot">
-      <img src="assets/img/mascot-broke.jpg" alt="没钱了" loading="lazy" />
-    </div>
-    <div class="mascot">
-      <img src="assets/img/mascot-pray.jpg" alt="求打赏" loading="lazy" />
-    </div>
-  </div>
+      <p class="desc" style="--i:2">
+        <!-- 👇 改成你自己的简介 / 感谢语 -->
+        我是 <strong>Minecraft雪峰君</strong>，独立创作者。<br>
+        所有内容免费开放——如果对你有帮助，欢迎用任意金额支持我继续做下去。
+      </p>
 
-  <hr>
-  <p class="label">扫码赞赏</p>
-
-  <div class="qr-row">
-
-    <div class="qr-box">
-      <div class="qr-brand wx">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-3.895-6.348-7.596-6.348zm-2.906 3.8c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18A1.17 1.17 0 0 1 4.623 7.17c0-.65.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18 1.17 1.17 0 0 1-1.162-1.18c0-.65.52-1.18 1.162-1.18zm2.34 4.879c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 0 1 .178-.554C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.934 2.555c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972zm4.947 0c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972z"/></svg>
-        微信支付
-      </div>
-      <div class="qr-img" id="wx-frame">
-        <!--
-          把微信收款码图片命名为 wechat-qr.png 放入项目根目录即可自动显示
-          <img src="wechat-qr.png" alt="微信收款码" />
-        -->
-        <div class="placeholder-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-          <code>wechat-qr.png</code>
+      <div class="mascot-row" style="--i:3">
+        <div class="mascot">
+          <img src="assets/img/mascot-broke.jpg" alt="没钱了" loading="lazy" />
+        </div>
+        <div class="mascot">
+          <img src="assets/img/mascot-pray.jpg" alt="求打赏" loading="lazy" />
         </div>
       </div>
-      <p class="qr-tip">微信扫一扫</p>
-    </div>
 
-    <div class="qr-box">
-      <div class="qr-brand ali">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.422 15.358c-3.83-1.153-6.055-1.84-7.766-2.358.802-1.422 1.328-3.042 1.526-4.817H18V6.817h-4.002V5h-2.443v1.817H7.578V8.183h6.607c-.175 1.367-.56 2.61-1.11 3.658-1.4-.38-2.96-.722-4.612-.837C5.196 10.745 2 12.44 2 15.65 2 18.055 4.02 20 6.52 20c2.73 0 5.428-1.77 7.306-4.728 2.155.837 4.552 1.86 6.884 3.03L22 17.24a35.028 35.028 0 0 0-.578-.882zM6.52 18.124C4.98 18.124 4 17.074 4 15.65c0-1.768 1.593-2.9 3.558-2.69 1.418.155 2.75.526 3.988.96C9.98 16.8 8.22 18.124 6.52 18.124z"/></svg>
-        支付宝
-      </div>
-      <div class="qr-img" id="ali-frame">
-        <!--
-          把支付宝收款码图片命名为 alipay-qr.png 放入项目根目录即可自动显示
-          <img src="alipay-qr.png" alt="支付宝收款码" />
-        -->
-        <div class="placeholder-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-          <code>alipay-qr.png</code>
+      <hr style="--i:4">
+      <p class="label" style="--i:5">扫码赞赏</p>
+
+      <div class="qr-row" style="--i:6">
+
+        <div class="qr-box">
+          <div class="qr-brand wx">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-3.895-6.348-7.596-6.348zm-2.906 3.8c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18A1.17 1.17 0 0 1 4.623 7.17c0-.65.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18 1.17 1.17 0 0 1-1.162-1.18c0-.65.52-1.18 1.162-1.18zm2.34 4.879c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 0 1 .178-.554C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.934 2.555c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972zm4.947 0c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972z"/></svg>
+            微信支付
+          </div>
+          <div class="qr-img" id="wx-frame">
+            <!--
+              把微信收款码图片命名为 wechat-qr.png 放入项目根目录即可自动显示
+              <img src="wechat-qr.png" alt="微信收款码" />
+            -->
+            <div class="placeholder-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
+              <code>wechat-qr.png</code>
+            </div>
+          </div>
+          <p class="qr-tip">微信扫一扫</p>
         </div>
+
+        <div class="qr-box">
+          <div class="qr-brand ali">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.422 15.358c-3.83-1.153-6.055-1.84-7.766-2.358.802-1.422 1.328-3.042 1.526-4.817H18V6.817h-4.002V5h-2.443v1.817H7.578V8.183h6.607c-.175 1.367-.56 2.61-1.11 3.658-1.4-.38-2.96-.722-4.612-.837C5.196 10.745 2 12.44 2 15.65 2 18.055 4.02 20 6.52 20c2.73 0 5.428-1.77 7.306-4.728 2.155.837 4.552 1.86 6.884 3.03L22 17.24a35.028 35.028 0 0 0-.578-.882zM6.52 18.124C4.98 18.124 4 17.074 4 15.65c0-1.768 1.593-2.9 3.558-2.69 1.418.155 2.75.526 3.988.96C9.98 16.8 8.22 18.124 6.52 18.124z"/></svg>
+            支付宝
+          </div>
+          <div class="qr-img" id="ali-frame">
+            <!--
+              把支付宝收款码图片命名为 alipay-qr.png 放入项目根目录即可自动显示
+              <img src="alipay-qr.png" alt="支付宝收款码" />
+            -->
+            <div class="placeholder-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
+              <code>alipay-qr.png</code>
+            </div>
+          </div>
+          <p class="qr-tip">支付宝扫一扫</p>
+        </div>
+
       </div>
-      <p class="qr-tip">支付宝扫一扫</p>
+
+      <hr style="--i:7">
+      <p class="label" style="--i:8">更多渠道</p>
+
+      <div class="link-list" style="--i:9">
+
+        <!-- 👇 将 YOUR_USERNAME 替换为你的爱发电用户名 -->
+        <a class="link-item" href="https://ifdian.net/a/MinecraftXFJ" target="_blank" rel="noopener">
+          <div class="link-dot">⚡</div>
+          <div class="link-info">
+            <div class="link-name">爱发电</div>
+            <div class="link-href">ifdian.net/a/MinecraftXFJ</div>
+          </div>
+          <span class="link-chevron">›</span>
+        </a>
+
+      </div>
+
+      <footer style="--i:10">
+        感谢每一份支持 <span class="heart">♥</span><br>
+        <!-- 👇 改成你的名字 -->
+        — <strong>Minecraft雪峰君</strong>
+      </footer>
+
+    </div>
+
+    <div class="col-side">
+
+      <p class="label" style="--i:0">捐赠排行榜</p>
+
+      <div class="stat-card" style="--i:1">
+        <div class="stat-label">累计已收到支持</div>
+        <div class="stat-value" id="stat-total">¥0.00</div>
+        <div class="stat-sub" id="stat-sub">加载中…</div>
+      </div>
+
+      <div class="board" id="board" style="--i:2">
+        <div class="board-state">加载中…</div>
+      </div>
+
     </div>
 
   </div>
-
-  <hr>
-  <p class="label">更多渠道</p>
-
-  <div class="link-list">
-
-    <!-- 👇 将 YOUR_USERNAME 替换为你的爱发电用户名 -->
-    <a class="link-item" href="https://ifdian.net/a/MinecraftXFJ" target="_blank" rel="noopener">
-      <div class="link-dot">⚡</div>
-      <div class="link-info">
-        <div class="link-name">爱发电</div>
-        <div class="link-href">ifdian.net/a/MinecraftXFJ</div>
-      </div>
-      <span class="link-chevron">›</span>
-    </a>
-
-    <!-- Ko-fi（可选，取消注释启用）
-    <a class="link-item" href="https://ko-fi.com/YOUR_USERNAME" target="_blank" rel="noopener">
-      <div class="link-dot">☕</div>
-      <div class="link-info">
-        <div class="link-name">Ko-fi</div>
-        <div class="link-href">ko-fi.com/YOUR_USERNAME</div>
-      </div>
-      <span class="link-chevron">›</span>
-    </a>
-    -->
-
-    <!-- GitHub Sponsors（可选，取消注释启用）
-    <a class="link-item" href="https://github.com/sponsors/YOUR_USERNAME" target="_blank" rel="noopener">
-      <div class="link-dot">🐙</div>
-      <div class="link-info">
-        <div class="link-name">GitHub Sponsors</div>
-        <div class="link-href">github.com/sponsors/YOUR_USERNAME</div>
-      </div>
-      <span class="link-chevron">›</span>
-    </a>
-    -->
-
-  </div>
-
-  <hr>
-  <p class="label">捐赠排行榜</p>
-
-  <div class="board" id="board">
-    <div class="board-state">加载中…</div>
-  </div>
-
-  <footer>
-    感谢每一份支持 <span class="heart">♥</span><br>
-    <!-- 👇 改成你的名字 -->
-    — <strong>夜桜侵雪</strong>
-  </footer>
 
   <!-- ── Site footer ── -->
   <div class="site-footer">
@@ -613,7 +692,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
         </svg>
-        夜桜侵雪
+        Minecraft雪峰君
       </a>
 
       <span class="site-footer-sep">·</span>
@@ -675,10 +754,33 @@
     return d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
   }
 
-  function renderBoard(list) {
-    const board = document.getElementById('board');
+  function animateTotal(target) {
+    const el = document.getElementById('stat-total');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion || target === 0) {
+      el.textContent = formatAmount(target);
+      return;
+    }
+    const duration = 900;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = formatAmount(target * eased);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
 
-    if (!Array.isArray(list) || list.length === 0) {
+  function renderBoard(payload) {
+    const board = document.getElementById('board');
+    const list = payload && Array.isArray(payload.leaderboard) ? payload.leaderboard : [];
+
+    animateTotal(payload && typeof payload.total === 'number' ? payload.total : 0);
+    document.getElementById('stat-sub').textContent =
+      list.length > 0 ? `共 ${list.length} 位支持者` : '还没有支持者';
+
+    if (list.length === 0) {
       board.innerHTML = '<div class="board-state">还没有捐赠记录，成为第一位支持者吧 ✨</div>';
       return;
     }
@@ -687,6 +789,7 @@
       const rank = idx + 1;
       const rankClass = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : '';
       const hasMore = entry.count > 1;
+      const singleNote = !hasMore && entry.records[0] && entry.records[0].note;
 
       const subHtml = hasMore
         ? `<span class="board-amount">${formatAmount(entry.total)}</span>
@@ -709,8 +812,12 @@
           <div class="board-inner">
             <div class="board-rank ${rankClass}">${rank}</div>
             <div class="board-main">
-              <div class="board-name">${escapeHtml(entry.donor_name)}</div>
+              <div class="board-name">
+                ${entry.anonymous ? '<span class="anon-icon">🕶</span>' : ''}
+                ${escapeHtml(entry.donor_name)}
+              </div>
               <div class="board-sub">${subHtml}</div>
+              ${singleNote ? `<div class="board-note">${escapeHtml(singleNote)}</div>` : ''}
               ${hasMore ? `<div class="board-records" id="records-${idx}" hidden>${recordsHtml}</div>` : ''}
             </div>
           </div>
@@ -736,6 +843,7 @@
       renderBoard(await res.json());
     } catch (e) {
       board.innerHTML = '<div class="board-state">排行榜加载失败，请刷新重试</div>';
+      document.getElementById('stat-sub').textContent = '加载失败';
     }
   }
 

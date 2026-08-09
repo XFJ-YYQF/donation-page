@@ -12,7 +12,7 @@ function validate(body) {
 // GET /api/admin/donations — list every raw donation record (for the admin table)
 export async function onRequestGet({ env }) {
   const { results } = await env.DB.prepare(
-    'SELECT id, donor_name, channel, amount, note, created_at FROM donations ORDER BY created_at DESC, id DESC'
+    'SELECT id, donor_name, channel, amount, note, is_anonymous, created_at FROM donations ORDER BY created_at DESC, id DESC'
   ).all();
   return jsonResponse(results);
 }
@@ -34,12 +34,13 @@ export async function onRequestPost({ request, env }) {
     : new Date().toISOString();
 
   const res = await env.DB.prepare(
-    'INSERT INTO donations (donor_name, channel, amount, note, created_at) VALUES (?, ?, ?, ?, ?)'
+    'INSERT INTO donations (donor_name, channel, amount, note, is_anonymous, created_at) VALUES (?, ?, ?, ?, ?, ?)'
   ).bind(
     String(body.donor_name).trim(),
     String(body.channel).trim(),
     Number(body.amount),
     body.note ? String(body.note).trim() : null,
+    body.is_anonymous ? 1 : 0,
     createdAt
   ).run();
 

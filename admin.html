@@ -7,24 +7,28 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --accent:   #FF4D2E;
-      --ink:      #111;
-      --muted:    #888;
-      --border:   #e8e8e8;
+      --accent:      #39C5BB;
+      --accent-dark: #1FA69C;
+      --accent-tint: #E6FAF8;
+      --ink:      #14201f;
+      --muted:    #8a9694;
+      --border:   #e7edec;
       --bg:       #fff;
-      --hover-bg: #fafafa;
-      --danger:   #d63b2f;
-      --ok:       #17845a;
+      --hover-bg: #F7FCFB;
+      --danger:   #e0574a;
+      --danger-tint: #FDF0EE;
+      --ok:       #1FA69C;
+      --ease:     cubic-bezier(.22,.9,.32,1);
     }
 
     body {
-      font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+      font-family: 'Nunito', 'Noto Sans SC', sans-serif;
       background: var(--bg);
       color: var(--ink);
       min-height: 100vh;
@@ -34,32 +38,33 @@
     a, button { -webkit-tap-highlight-color: transparent; }
 
     .page {
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
       padding: clamp(40px, 9vw, 64px) 24px 80px;
     }
 
     .eyebrow {
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 700;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent-dark);
       margin-bottom: 16px;
     }
 
     h1 {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Baloo 2', 'Noto Sans SC', sans-serif;
+      font-weight: 700;
       font-size: clamp(30px, 7vw, 40px);
       line-height: 1.15;
-      letter-spacing: -.02em;
+      letter-spacing: -.01em;
       margin-bottom: 8px;
     }
 
     .subtitle {
       font-size: 14px;
       color: var(--muted);
-      font-weight: 300;
+      font-weight: 400;
       margin-bottom: 36px;
     }
 
@@ -71,8 +76,8 @@
 
     .label {
       font-size: 11px;
-      font-weight: 500;
-      letter-spacing: .15em;
+      font-weight: 700;
+      letter-spacing: .14em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 16px;
@@ -91,7 +96,7 @@
 
     .field label {
       font-size: 12px;
-      font-weight: 500;
+      font-weight: 700;
       color: var(--muted);
     }
 
@@ -104,12 +109,14 @@
       font-size: 14px;
       padding: 11px 13px;
       border: 1px solid var(--border);
-      border-radius: 9px;
+      border-radius: 12px;
       background: #fff;
       color: var(--ink);
       width: 100%;
-      transition: border-color .15s;
+      transition: border-color .2s;
     }
+
+    select { cursor: pointer; }
 
     input:focus, select:focus, button:focus-visible {
       outline: none;
@@ -120,17 +127,22 @@
     .btn {
       font-family: inherit;
       font-size: 13px;
-      font-weight: 500;
+      font-weight: 700;
       padding: 11px 20px;
-      border-radius: 9px;
+      border-radius: 12px;
       border: 1px solid var(--ink);
       background: var(--ink);
       color: #fff;
       cursor: pointer;
-      transition: opacity .15s;
+      transition: opacity .2s, transform .2s var(--ease);
     }
-    .btn:hover { opacity: .85; }
-    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+    .btn-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+    }
 
     .btn-outline {
       background: none;
@@ -143,22 +155,34 @@
       color: var(--danger);
       background: none;
     }
-    .btn-danger:hover { background: #fdf1f0; }
+    .btn-danger:hover { background: var(--danger-tint); }
 
     .btn-small {
       font-size: 12px;
       padding: 7px 12px;
-      border-radius: 7px;
+      border-radius: 9px;
+    }
+
+    .btn-icon {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
     }
 
     .msg {
       font-size: 13px;
       padding: 10px 13px;
-      border-radius: 9px;
+      border-radius: 12px;
       margin-bottom: 16px;
     }
-    .msg.error { background: #fdf1f0; color: var(--danger); }
-    .msg.ok    { background: #eefaf4; color: var(--ok); }
+    .msg.error { background: var(--danger-tint); color: var(--danger); }
+    .msg.ok    { background: var(--accent-tint); color: var(--accent-dark); }
 
     /* ── Top bar ── */
     .topbar {
@@ -172,8 +196,8 @@
     /* ── Form ── */
     .form-card {
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
+      border-radius: 18px;
+      padding: 22px;
       margin-bottom: 36px;
     }
 
@@ -188,31 +212,149 @@
       .form-grid { grid-template-columns: 1fr; }
     }
 
+    .channel-row { display: flex; gap: 8px; align-items: stretch; }
+    .channel-row select { flex: 1; }
+
+    .checkbox-field {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 4px;
+    }
+    .checkbox-field input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .checkbox-field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
     .form-actions {
       display: flex;
       gap: 10px;
       margin-top: 18px;
     }
 
+    /* ── Channel manager ── */
+    .channel-manager {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px 20px;
+      margin-bottom: 36px;
+    }
+
+    .channel-manager-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .channel-manager-header .label { margin-bottom: 0; }
+
+    .channel-manager-toggle {
+      font-size: 12px;
+      color: var(--accent-dark);
+      font-weight: 700;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .channel-manager-toggle .chev {
+      display: inline-block;
+      transition: transform .2s ease;
+    }
+    .channel-manager-toggle[aria-expanded="true"] .chev { transform: rotate(90deg); }
+
+    .channel-manager-body { margin-top: 16px; }
+
+    .channel-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .channel-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--hover-bg);
+      border: 1px solid var(--border);
+      padding: 6px 8px 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .channel-chip button {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: none;
+      background: #e2e8e7;
+      color: #667;
+      font-size: 11px;
+      line-height: 1;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+    }
+    .channel-chip button:hover { background: var(--danger); color: #fff; }
+
+    .channel-add-row { display: flex; gap: 8px; }
+    .channel-add-row input { flex: 1; }
+
     /* ── Records list ── */
     .records { display: flex; flex-direction: column; gap: 8px; }
 
     .record-row {
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 16px;
       padding: 14px 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
       flex-wrap: wrap;
+      transition: border-color .2s;
     }
+    .record-row:hover { border-color: #d8e3e1; }
 
     .record-main { flex: 1; min-width: 180px; }
-    .record-name { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+    .record-name {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .anon-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--accent-tint);
+      color: var(--accent-dark);
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: .02em;
+    }
     .record-meta { font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; }
-    .record-meta .amt { color: var(--ink); font-weight: 500; }
-    .record-note { font-size: 12px; color: #bbb; margin-top: 4px; }
+    .record-meta .amt { color: var(--accent-dark); font-weight: 700; }
+    .record-note { font-size: 12px; color: #b7bfbd; margin-top: 4px; }
 
     .record-actions { display: flex; gap: 8px; flex-shrink: 0; }
 
@@ -227,7 +369,7 @@
 
     .hint {
       font-size: 12px;
-      color: #bbb;
+      color: #a9b3b1;
       margin-top: 6px;
     }
 
@@ -250,7 +392,7 @@
         <label for="login-password">管理员密码</label>
         <input type="password" id="login-password" autocomplete="current-password" required />
       </div>
-      <button type="submit" class="btn" id="login-submit">登录</button>
+      <button type="submit" class="btn btn-primary" id="login-submit">登录</button>
     </form>
   </section>
 
@@ -278,12 +420,10 @@
           </div>
           <div class="field">
             <label for="channel">捐赠渠道</label>
-            <input type="text" id="channel" list="channel-options" required placeholder="例如：微信支付" />
-            <datalist id="channel-options">
-              <option value="微信支付"></option>
-              <option value="支付宝"></option>
-              <option value="爱发电"></option>
-            </datalist>
+            <div class="channel-row">
+              <select id="channel" required></select>
+              <button type="button" class="btn btn-outline btn-icon" id="quick-add-channel" title="添加新渠道">＋</button>
+            </div>
           </div>
           <div class="field">
             <label for="amount">金额（元）</label>
@@ -297,13 +437,35 @@
             <label for="note">备注（可选）</label>
             <input type="text" id="note" placeholder="留言 / 备注" />
           </div>
+          <div class="field span-2">
+            <div class="checkbox-field">
+              <input type="checkbox" id="is-anonymous" />
+              <label for="is-anonymous">匿名捐赠（排行榜显示为「匿名支持者」，且不会与同名记录合并）</label>
+            </div>
+          </div>
         </div>
-        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。</p>
+        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。勾选「匿名捐赠」后该条记录不会参与合并。</p>
         <div class="form-actions">
-          <button type="submit" class="btn" id="form-submit">添加记录</button>
+          <button type="submit" class="btn btn-primary" id="form-submit">添加记录</button>
           <button type="button" class="btn btn-outline" id="form-cancel" hidden>取消编辑</button>
         </div>
       </form>
+    </div>
+
+    <div class="channel-manager">
+      <div class="channel-manager-header" id="channel-manager-header">
+        <span class="label">管理捐赠渠道</span>
+        <button type="button" class="channel-manager-toggle" id="channel-manager-toggle" aria-expanded="false">
+          展开<span class="chev">›</span>
+        </button>
+      </div>
+      <div class="channel-manager-body" id="channel-manager-body" hidden>
+        <div class="channel-chips" id="channel-chips"></div>
+        <div class="channel-add-row">
+          <input type="text" id="new-channel-name" placeholder="新渠道名称，例如：Ko-fi" maxlength="40" />
+          <button type="button" class="btn btn-outline btn-small" id="add-channel-btn">添加渠道</button>
+        </div>
+      </div>
     </div>
 
     <hr>
@@ -330,17 +492,27 @@
   const donationForm = document.getElementById('donation-form');
   const recordIdInput = document.getElementById('record-id');
   const donorNameInput = document.getElementById('donor-name');
-  const channelInput = document.getElementById('channel');
+  const channelSelect = document.getElementById('channel');
+  const quickAddChannelBtn = document.getElementById('quick-add-channel');
   const amountInput = document.getElementById('amount');
   const createdAtInput = document.getElementById('created-at');
   const noteInput = document.getElementById('note');
+  const isAnonymousInput = document.getElementById('is-anonymous');
   const formTitle = document.getElementById('form-title');
   const formSubmit = document.getElementById('form-submit');
   const formCancel = document.getElementById('form-cancel');
   const recordsList = document.getElementById('records-list');
   const searchInput = document.getElementById('search-input');
 
+  const channelManagerHeader = document.getElementById('channel-manager-header');
+  const channelManagerToggle = document.getElementById('channel-manager-toggle');
+  const channelManagerBody = document.getElementById('channel-manager-body');
+  const channelChips = document.getElementById('channel-chips');
+  const newChannelNameInput = document.getElementById('new-channel-name');
+  const addChannelBtn = document.getElementById('add-channel-btn');
+
   let allRecords = [];
+  let allChannels = [];
 
   function showMsg(el, text, type) {
     el.innerHTML = text ? `<div class="msg ${type}">${escapeHtml(text)}</div>` : '';
@@ -369,6 +541,7 @@
       if (data.loggedIn) {
         loginView.hidden = true;
         dashboardView.hidden = false;
+        loadChannels();
         loadRecords();
       } else {
         loginView.hidden = false;
@@ -408,9 +581,113 @@
     checkAuth();
   });
 
+  /* ── Channel management ── */
+  function renderChannelSelect(selected) {
+    channelSelect.innerHTML = allChannels.map((c) =>
+      `<option value="${escapeHtml(c.name)}">${escapeHtml(c.name)}</option>`
+    ).join('');
+    if (selected && allChannels.some((c) => c.name === selected)) {
+      channelSelect.value = selected;
+    }
+  }
+
+  function renderChannelChips() {
+    if (allChannels.length === 0) {
+      channelChips.innerHTML = '<span class="hint">还没有任何渠道</span>';
+      return;
+    }
+    channelChips.innerHTML = allChannels.map((c) => `
+      <span class="channel-chip">
+        ${escapeHtml(c.name)}
+        <button type="button" data-id="${c.id}" title="删除渠道">×</button>
+      </span>
+    `).join('');
+    channelChips.querySelectorAll('button').forEach((btn) => {
+      btn.addEventListener('click', () => deleteChannel(btn.dataset.id));
+    });
+  }
+
+  async function loadChannels() {
+    try {
+      const res = await fetch('/api/admin/channels');
+      if (res.status === 401) { checkAuth(); return; }
+      if (!res.ok) throw new Error('加载渠道失败');
+      allChannels = await res.json();
+      const current = channelSelect.value;
+      renderChannelSelect(current);
+      renderChannelChips();
+    } catch (err) {
+      channelChips.innerHTML = `<span class="hint">加载失败：${escapeHtml(err.message)}</span>`;
+    }
+  }
+
+  async function addChannel(name) {
+    const res = await fetch('/api/admin/channels', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || '添加渠道失败');
+    await loadChannels();
+    return data.name || name;
+  }
+
+  addChannelBtn.addEventListener('click', async () => {
+    const name = newChannelNameInput.value.trim();
+    if (!name) return;
+    addChannelBtn.disabled = true;
+    try {
+      await addChannel(name);
+      newChannelNameInput.value = '';
+    } catch (err) {
+      showMsg(dashMsg, err.message, 'error');
+    } finally {
+      addChannelBtn.disabled = false;
+    }
+  });
+
+  newChannelNameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); addChannelBtn.click(); }
+  });
+
+  quickAddChannelBtn.addEventListener('click', async () => {
+    const name = prompt('输入新的捐赠渠道名称：');
+    if (!name || !name.trim()) return;
+    try {
+      const savedName = await addChannel(name.trim());
+      channelSelect.value = savedName;
+    } catch (err) {
+      showMsg(dashMsg, err.message, 'error');
+    }
+  });
+
+  async function deleteChannel(id) {
+    if (!confirm('确定要删除这个渠道吗？已有的捐赠记录不受影响。')) return;
+    try {
+      const res = await fetch(`/api/admin/channels/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '删除失败');
+      await loadChannels();
+    } catch (err) {
+      showMsg(dashMsg, err.message, 'error');
+    }
+  }
+
+  channelManagerHeader.addEventListener('click', () => {
+    const willOpen = channelManagerBody.hidden;
+    channelManagerBody.hidden = !willOpen;
+    channelManagerToggle.setAttribute('aria-expanded', String(willOpen));
+    channelManagerToggle.innerHTML = willOpen
+      ? '收起<span class="chev">›</span>'
+      : '展开<span class="chev">›</span>';
+  });
+
+  /* ── Donation form ── */
   function resetForm() {
     donationForm.reset();
     recordIdInput.value = '';
+    renderChannelSelect();
     formTitle.textContent = '添加捐赠记录';
     formSubmit.textContent = '添加记录';
     formCancel.hidden = true;
@@ -425,9 +702,10 @@
 
     const payload = {
       donor_name: donorNameInput.value.trim(),
-      channel: channelInput.value.trim(),
+      channel: channelSelect.value.trim(),
       amount: Number(amountInput.value),
       note: noteInput.value.trim(),
+      is_anonymous: isAnonymousInput.checked,
       created_at: createdAtInput.value ? new Date(createdAtInput.value).toISOString() : undefined
     };
 
@@ -457,9 +735,10 @@
   function editRecord(record) {
     recordIdInput.value = record.id;
     donorNameInput.value = record.donor_name;
-    channelInput.value = record.channel;
+    renderChannelSelect(record.channel);
     amountInput.value = record.amount;
     noteInput.value = record.note || '';
+    isAnonymousInput.checked = !!record.is_anonymous;
     const d = new Date(record.created_at);
     createdAtInput.value = isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
     formTitle.textContent = '编辑捐赠记录';
@@ -496,7 +775,10 @@
     recordsList.innerHTML = filtered.map((r) => `
       <div class="record-row" data-id="${r.id}">
         <div class="record-main">
-          <div class="record-name">${escapeHtml(r.donor_name)}</div>
+          <div class="record-name">
+            ${escapeHtml(r.donor_name)}
+            ${r.is_anonymous ? '<span class="anon-badge">匿名</span>' : ''}
+          </div>
           <div class="record-meta">
             <span class="amt">${formatAmount(r.amount)}</span>
             <span>${escapeHtml(r.channel)}</span>

@@ -29,12 +29,13 @@ export async function onRequestPut({ request, env, params }) {
     : new Date().toISOString();
 
   const res = await env.DB.prepare(
-    'UPDATE donations SET donor_name = ?, channel = ?, amount = ?, note = ?, created_at = ? WHERE id = ?'
+    'UPDATE donations SET donor_name = ?, channel = ?, amount = ?, note = ?, is_anonymous = ?, created_at = ? WHERE id = ?'
   ).bind(
     String(body.donor_name).trim(),
     String(body.channel).trim(),
     Number(body.amount),
     body.note ? String(body.note).trim() : null,
+    body.is_anonymous ? 1 : 0,
     createdAt,
     id
   ).run();
