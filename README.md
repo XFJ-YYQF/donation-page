@@ -133,7 +133,7 @@ ADMIN_PASSWORD=你的本地测试密码 npx wrangler pages dev . --port 8788
 
 ### 1. 基本信息 / 二维码 / 外部渠道
 
-编辑 `index.html`，按注释中的 `👇` 提示修改标语、简介、署名，并将收款码图片替换为 `wechat-qr.png` / `alipay-qr.png`（文件名保持一致会自动显示）。爱发电等链接在 `link-list` 区块修改或取消注释启用。
+编辑 `index.html`，按 HTML 注释提示修改简介、署名、捐款用途列表，并将收款码图片替换为 `wechat-qr.png` / `alipay-qr.png`（文件名保持一致会自动显示）。爱发电等链接在 `link-list` 区块修改或取消注释启用。
 
 ### 2. 装饰图片
 

@@ -87,40 +87,65 @@
       letter-spacing: .18em;
       text-transform: uppercase;
       color: var(--accent-dark);
-      margin-bottom: 18px;
-    }
-
-    h1 {
-      font-family: 'Baloo 2', 'Noto Sans SC', sans-serif;
-      font-weight: 700;
-      font-size: clamp(38px, 7vw, 58px);
-      line-height: 1.12;
-      letter-spacing: -.01em;
-      color: var(--ink);
-      margin-bottom: 20px;
-    }
-
-    h1 i {
-      font-style: normal;
-      color: var(--accent);
+      margin-bottom: 14px;
     }
 
     .desc {
-      font-size: 15px;
-      line-height: 1.8;
+      font-size: clamp(17px, 2.6vw, 20px);
+      line-height: 1.75;
       color: var(--muted);
       font-weight: 400;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .desc strong { color: var(--ink); font-weight: 700; }
+
+    /* ── Fund usage list ── */
+    .usage-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .usage-list li {
+      position: relative;
+      padding: 12px 16px 12px 40px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ink);
+      background: #fff;
+      transition: border-color .2s var(--ease), background .2s var(--ease);
+    }
+
+    .usage-list li::before {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-tint);
+    }
+
+    .usage-list li:hover {
+      border-color: transparent;
+      background: var(--hover-bg);
+    }
 
     /* ── Mascot images ── */
     .mascot-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 44px;
+      margin-top: 24px;
+      margin-bottom: 0;
     }
 
     .mascot {
@@ -256,7 +281,7 @@
       display: flex;
       flex-direction: column;
       gap: 3px;
-      margin-bottom: 48px;
+      margin-bottom: 36px;
     }
 
     .link-item {
@@ -481,7 +506,7 @@
 
     /* ── Footer (thank-you note) ── */
     footer {
-      font-size: 13px;
+      font-size: 14px;
       color: #bbb;
       line-height: 1.7;
     }
@@ -564,9 +589,9 @@
     /* ── Small-screen refinements ── */
     @media (max-width: 380px) {
       .page { padding-left: 18px; padding-right: 18px; }
-      .desc { margin-bottom: 24px; }
+      .desc { margin-bottom: 22px; }
       hr { margin-bottom: 26px; }
-      .qr-row, .link-list { margin-bottom: 36px; }
+      .qr-row, .link-list, .usage-list { margin-bottom: 32px; }
       .qr-img { width: 128px; height: 128px; }
       .stat-card { padding: 20px 18px; }
     }
@@ -580,27 +605,16 @@
 
       <p class="eyebrow" style="--i:0">Support my work</p>
 
-      <h1 style="--i:1">请我喝杯<br><i>咖啡</i> ☕</h1>
-
-      <p class="desc" style="--i:2">
-        <!-- 👇 改成你自己的简介 / 感谢语 -->
+      <p class="desc" style="--i:1">
+        <!-- 改成你自己的简介 / 感谢语 -->
         我是 <strong>夜桜侵雪</strong>，独立创作者。<br>
         所有内容免费开放——如果对你有帮助，欢迎用任意金额支持我继续做下去。
       </p>
 
-      <div class="mascot-row" style="--i:3">
-        <div class="mascot">
-          <img src="assets/img/mascot-broke.jpg" alt="没钱了" loading="lazy" />
-        </div>
-        <div class="mascot">
-          <img src="assets/img/mascot-pray.jpg" alt="求打赏" loading="lazy" />
-        </div>
-      </div>
+      <hr style="--i:2">
+      <p class="label" style="--i:3">扫码赞赏</p>
 
-      <hr style="--i:4">
-      <p class="label" style="--i:5">扫码赞赏</p>
-
-      <div class="qr-row" style="--i:6">
+      <div class="qr-row" style="--i:4">
 
         <div class="qr-box">
           <div class="qr-brand wx">
@@ -640,12 +654,12 @@
 
       </div>
 
-      <hr style="--i:7">
-      <p class="label" style="--i:8">更多渠道</p>
+      <hr style="--i:5">
+      <p class="label" style="--i:6">更多渠道</p>
 
-      <div class="link-list" style="--i:9">
+      <div class="link-list" style="--i:7">
 
-        <!-- 👇 将 YOUR_USERNAME 替换为你的爱发电用户名 -->
+        <!-- 将 YOUR_USERNAME 替换为你的爱发电用户名 -->
         <a class="link-item" href="https://ifdian.net/a/MinecraftXFJ" target="_blank" rel="noopener">
           <div class="link-dot">⚡</div>
           <div class="link-info">
@@ -657,11 +671,31 @@
 
       </div>
 
-      <footer style="--i:10">
+      <hr style="--i:8">
+      <p class="label" style="--i:9">捐款用途</p>
+      <!-- 在下面 <li> 里列举捐款会用到哪里，增删条目即可 -->
+      <ul class="usage-list" style="--i:10">
+        <li>吃小零食喝小甜水</li>
+        <li>服务器与域名续费</li>
+        <li>买一些你知道我会穿什么的衣服</li>
+        <li>维持我的兴趣爱好</li>
+        <li>攒钱玩 kigurumi ！</li>
+      </ul>
+
+      <footer style="--i:11">
         感谢每一份支持 <span class="heart">♥</span><br>
-        <!-- 👇 改成你的名字 -->
+        <!-- 改成你的名字 -->
         — <strong>夜桜侵雪</strong>
       </footer>
+
+      <div class="mascot-row" style="--i:12">
+        <div class="mascot">
+          <img src="assets/img/mascot-broke.jpg" alt="没钱了" loading="lazy" />
+        </div>
+        <div class="mascot">
+          <img src="assets/img/mascot-pray.jpg" alt="求打赏" loading="lazy" />
+        </div>
+      </div>
 
     </div>
 
@@ -687,7 +721,7 @@
   <div class="site-footer">
     <div class="site-footer-links">
 
-      <!-- 👇 href 改成你的个人主页，文字改成你的名字 -->
+      <!-- href 改成你的个人主页，文字改成你的名字 -->
       <a class="site-footer-link" href="https://minecraftxfj.top" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
@@ -697,7 +731,7 @@
 
       <span class="site-footer-sep">·</span>
 
-      <!-- 👇 href 改成你的 GitHub 仓库链接 -->
+      <!-- href 改成你的 GitHub 仓库链接 -->
       <a class="site-footer-link" href="https://github.com/XFJ-YYQF/donation-page" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
