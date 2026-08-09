@@ -1,4 +1,4 @@
-import { jsonResponse } from '../../../_lib/auth.js';
+import { jsonResponse } from '../../_lib/auth.js';
 
 function validate(body) {
   if (!body) return '请求格式错误';
