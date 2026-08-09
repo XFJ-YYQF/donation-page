@@ -13,8 +13,10 @@ export async function onRequestGet({ env }) {
   for (const row of results) {
     grandTotal += row.amount;
 
-    if (row.is_anonymous) {
-      // Anonymous donations never merge with anyone else, even by the same name.
+    // Empty donor_name means anonymous (is_anonymous is kept in sync on write).
+    const isAnonymous = row.is_anonymous || !String(row.donor_name || '').trim();
+    if (isAnonymous) {
+      // Anonymous donations never merge with anyone else.
       entries.push({
         key: `anon-${row.id}`,
         donor_name: '匿名',

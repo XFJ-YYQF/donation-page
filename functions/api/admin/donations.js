@@ -3,8 +3,8 @@ import { jsonResponse } from '../../_lib/auth.js';
 function normalizeDonation(body) {
   if (!body) return { error: '请求格式错误' };
   const donorName = String(body.donor_name || '').trim();
-  // Empty name always counts as anonymous (no checkbox required).
-  const isAnonymous = !!body.is_anonymous || !donorName;
+  // Empty name → anonymous; non-empty name → public identity.
+  const isAnonymous = !donorName;
   if (!body.channel || !String(body.channel).trim()) return { error: '捐赠渠道不能为空' };
   const amount = Number(body.amount);
   if (!Number.isFinite(amount) || amount <= 0) return { error: '捐赠金额必须为大于 0 的数字' };

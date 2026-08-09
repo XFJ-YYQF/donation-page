@@ -215,26 +215,6 @@
     .channel-row { display: flex; gap: 8px; align-items: stretch; }
     .channel-row select { flex: 1; }
 
-    .checkbox-field {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      margin-top: 4px;
-    }
-    .checkbox-field input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--accent);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
-    .checkbox-field label {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--ink);
-      cursor: pointer;
-    }
-
     .form-actions {
       display: flex;
       gap: 10px;
@@ -437,14 +417,8 @@
             <label for="note">备注（可选）</label>
             <input type="text" id="note" placeholder="留言 / 备注" />
           </div>
-          <div class="field span-2">
-            <div class="checkbox-field">
-              <input type="checkbox" id="is-anonymous" />
-              <label for="is-anonymous">匿名捐赠（排行榜显示为「匿名」，且不会与同名记录合并；名称留空也会自动匿名）</label>
-            </div>
-          </div>
         </div>
-        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。名称留空将自动按匿名录入；也可勾选「匿名捐赠」并填写名字作后台参考（排行榜一律显示「匿名」，且不参与合并）。</p>
+        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。名称留空将自动按匿名录入（排行榜显示「匿名」，且不与任何记录合并）。</p>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary" id="form-submit">添加记录</button>
           <button type="button" class="btn btn-outline" id="form-cancel" hidden>取消编辑</button>
@@ -497,7 +471,6 @@
   const amountInput = document.getElementById('amount');
   const createdAtInput = document.getElementById('created-at');
   const noteInput = document.getElementById('note');
-  const isAnonymousInput = document.getElementById('is-anonymous');
   const formTitle = document.getElementById('form-title');
   const formSubmit = document.getElementById('form-submit');
   const formCancel = document.getElementById('form-cancel');
@@ -700,14 +673,11 @@
     formSubmit.disabled = true;
     showMsg(dashMsg, '', '');
 
-    const donorName = donorNameInput.value.trim();
     const payload = {
-      donor_name: donorName,
+      donor_name: donorNameInput.value.trim(),
       channel: channelSelect.value.trim(),
       amount: Number(amountInput.value),
       note: noteInput.value.trim(),
-      // Empty name always counts as anonymous (checkbox optional in that case).
-      is_anonymous: isAnonymousInput.checked || !donorName,
       created_at: createdAtInput.value ? new Date(createdAtInput.value).toISOString() : undefined
     };
 
@@ -740,7 +710,6 @@
     renderChannelSelect(record.channel);
     amountInput.value = record.amount;
     noteInput.value = record.note || '';
-    isAnonymousInput.checked = !!record.is_anonymous;
     const d = new Date(record.created_at);
     createdAtInput.value = isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
     formTitle.textContent = '编辑捐赠记录';
@@ -778,8 +747,8 @@
       <div class="record-row" data-id="${r.id}">
         <div class="record-main">
           <div class="record-name">
-            ${r.donor_name ? escapeHtml(r.donor_name) : '<span style="opacity:.55;font-weight:400">（未填名称）</span>'}
-            ${r.is_anonymous ? '<span class="anon-badge">匿名</span>' : ''}
+            ${r.donor_name ? escapeHtml(r.donor_name) : '<span style="opacity:.55;font-weight:400">（匿名）</span>'}
+            ${!r.donor_name ? '<span class="anon-badge">匿名</span>' : ''}
           </div>
           <div class="record-meta">
             <span class="amt">${formatAmount(r.amount)}</span>
