@@ -7,7 +7,7 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "donation_db"
-database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+database_id = "9a752c67-216c-489e-bd61-013335f75027"
 
 # Secrets (do NOT put these here — set them with `wrangler pages secret put`):
 #   ADMIN_PASSWORD   — the password used to log into /admin.html
