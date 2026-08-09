@@ -17,7 +17,7 @@ export async function onRequestGet({ env }) {
       // Anonymous donations never merge with anyone else, even by the same name.
       entries.push({
         key: `anon-${row.id}`,
-        donor_name: '匿名支持者',
+        donor_name: '匿名',
         anonymous: true,
         total: row.amount,
         count: 1,

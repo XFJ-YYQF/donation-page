@@ -415,8 +415,8 @@
         <input type="hidden" id="record-id" value="" />
         <div class="form-grid">
           <div class="field">
-            <label for="donor-name" id="donor-name-label">捐赠者名称</label>
-            <input type="text" id="donor-name" required placeholder="例如：张三" />
+            <label for="donor-name">捐赠者名称（留空则匿名）</label>
+            <input type="text" id="donor-name" placeholder="例如：张三，留空则匿名" />
           </div>
           <div class="field">
             <label for="channel">捐赠渠道</label>
@@ -440,11 +440,11 @@
           <div class="field span-2">
             <div class="checkbox-field">
               <input type="checkbox" id="is-anonymous" />
-              <label for="is-anonymous">匿名捐赠（排行榜显示为「匿名支持者」，且不会与同名记录合并）</label>
+              <label for="is-anonymous">匿名捐赠（排行榜显示为「匿名」，且不会与同名记录合并；名称留空也会自动匿名）</label>
             </div>
           </div>
         </div>
-        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。勾选「匿名捐赠」后该条记录不会参与合并，名称变为可选（仅后台参考，排行榜一律显示「匿名支持者」）。</p>
+        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。名称留空将自动按匿名录入；也可勾选「匿名捐赠」并填写名字作后台参考（排行榜一律显示「匿名」，且不参与合并）。</p>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary" id="form-submit">添加记录</button>
           <button type="button" class="btn btn-outline" id="form-cancel" hidden>取消编辑</button>
@@ -492,7 +492,6 @@
   const donationForm = document.getElementById('donation-form');
   const recordIdInput = document.getElementById('record-id');
   const donorNameInput = document.getElementById('donor-name');
-  const donorNameLabel = document.getElementById('donor-name-label');
   const channelSelect = document.getElementById('channel');
   const quickAddChannelBtn = document.getElementById('quick-add-channel');
   const amountInput = document.getElementById('amount');
@@ -685,15 +684,6 @@
   });
 
   /* ── Donation form ── */
-  function syncDonorNameRequired() {
-    const anon = isAnonymousInput.checked;
-    donorNameInput.required = !anon;
-    donorNameLabel.textContent = anon ? '捐赠者名称（可选，仅后台参考）' : '捐赠者名称';
-    donorNameInput.placeholder = anon ? '可选，仅后台备注用' : '例如：张三';
-  }
-
-  isAnonymousInput.addEventListener('change', syncDonorNameRequired);
-
   function resetForm() {
     donationForm.reset();
     recordIdInput.value = '';
@@ -701,7 +691,6 @@
     formTitle.textContent = '添加捐赠记录';
     formSubmit.textContent = '添加记录';
     formCancel.hidden = true;
-    syncDonorNameRequired();
   }
 
   formCancel.addEventListener('click', resetForm);
@@ -711,12 +700,14 @@
     formSubmit.disabled = true;
     showMsg(dashMsg, '', '');
 
+    const donorName = donorNameInput.value.trim();
     const payload = {
-      donor_name: donorNameInput.value.trim(),
+      donor_name: donorName,
       channel: channelSelect.value.trim(),
       amount: Number(amountInput.value),
       note: noteInput.value.trim(),
-      is_anonymous: isAnonymousInput.checked,
+      // Empty name always counts as anonymous (checkbox optional in that case).
+      is_anonymous: isAnonymousInput.checked || !donorName,
       created_at: createdAtInput.value ? new Date(createdAtInput.value).toISOString() : undefined
     };
 
@@ -750,7 +741,6 @@
     amountInput.value = record.amount;
     noteInput.value = record.note || '';
     isAnonymousInput.checked = !!record.is_anonymous;
-    syncDonorNameRequired();
     const d = new Date(record.created_at);
     createdAtInput.value = isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
     formTitle.textContent = '编辑捐赠记录';
