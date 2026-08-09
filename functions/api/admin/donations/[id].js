@@ -2,7 +2,10 @@ import { jsonResponse } from '../../../_lib/auth.js';
 
 function validate(body) {
   if (!body) return '请求格式错误';
-  if (!body.donor_name || !String(body.donor_name).trim()) return '捐赠者名称不能为空';
+  // Anonymous records may omit donor_name (admin-only reference; leaderboard shows「匿名支持者」).
+  if (!body.is_anonymous && (!body.donor_name || !String(body.donor_name).trim())) {
+    return '捐赠者名称不能为空';
+  }
   if (!body.channel || !String(body.channel).trim()) return '捐赠渠道不能为空';
   const amount = Number(body.amount);
   if (!Number.isFinite(amount) || amount <= 0) return '捐赠金额必须为大于 0 的数字';
@@ -31,7 +34,7 @@ export async function onRequestPut({ request, env, params }) {
   const res = await env.DB.prepare(
     'UPDATE donations SET donor_name = ?, channel = ?, amount = ?, note = ?, is_anonymous = ?, created_at = ? WHERE id = ?'
   ).bind(
-    String(body.donor_name).trim(),
+    String(body.donor_name || '').trim(),
     String(body.channel).trim(),
     Number(body.amount),
     body.note ? String(body.note).trim() : null,

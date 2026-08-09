@@ -415,7 +415,7 @@
         <input type="hidden" id="record-id" value="" />
         <div class="form-grid">
           <div class="field">
-            <label for="donor-name">捐赠者名称</label>
+            <label for="donor-name" id="donor-name-label">捐赠者名称</label>
             <input type="text" id="donor-name" required placeholder="例如：张三" />
           </div>
           <div class="field">
@@ -444,7 +444,7 @@
             </div>
           </div>
         </div>
-        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。勾选「匿名捐赠」后该条记录不会参与合并。</p>
+        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。勾选「匿名捐赠」后该条记录不会参与合并，名称变为可选（仅后台参考，排行榜一律显示「匿名支持者」）。</p>
         <div class="form-actions">
           <button type="submit" class="btn btn-primary" id="form-submit">添加记录</button>
           <button type="button" class="btn btn-outline" id="form-cancel" hidden>取消编辑</button>
@@ -492,6 +492,7 @@
   const donationForm = document.getElementById('donation-form');
   const recordIdInput = document.getElementById('record-id');
   const donorNameInput = document.getElementById('donor-name');
+  const donorNameLabel = document.getElementById('donor-name-label');
   const channelSelect = document.getElementById('channel');
   const quickAddChannelBtn = document.getElementById('quick-add-channel');
   const amountInput = document.getElementById('amount');
@@ -684,6 +685,15 @@
   });
 
   /* ── Donation form ── */
+  function syncDonorNameRequired() {
+    const anon = isAnonymousInput.checked;
+    donorNameInput.required = !anon;
+    donorNameLabel.textContent = anon ? '捐赠者名称（可选，仅后台参考）' : '捐赠者名称';
+    donorNameInput.placeholder = anon ? '可选，仅后台备注用' : '例如：张三';
+  }
+
+  isAnonymousInput.addEventListener('change', syncDonorNameRequired);
+
   function resetForm() {
     donationForm.reset();
     recordIdInput.value = '';
@@ -691,6 +701,7 @@
     formTitle.textContent = '添加捐赠记录';
     formSubmit.textContent = '添加记录';
     formCancel.hidden = true;
+    syncDonorNameRequired();
   }
 
   formCancel.addEventListener('click', resetForm);
@@ -734,11 +745,12 @@
 
   function editRecord(record) {
     recordIdInput.value = record.id;
-    donorNameInput.value = record.donor_name;
+    donorNameInput.value = record.donor_name || '';
     renderChannelSelect(record.channel);
     amountInput.value = record.amount;
     noteInput.value = record.note || '';
     isAnonymousInput.checked = !!record.is_anonymous;
+    syncDonorNameRequired();
     const d = new Date(record.created_at);
     createdAtInput.value = isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
     formTitle.textContent = '编辑捐赠记录';
@@ -764,7 +776,7 @@
   function renderRecords() {
     const q = searchInput.value.trim().toLowerCase();
     const filtered = q
-      ? allRecords.filter((r) => r.donor_name.toLowerCase().includes(q))
+      ? allRecords.filter((r) => String(r.donor_name || '').toLowerCase().includes(q))
       : allRecords;
 
     if (filtered.length === 0) {
@@ -776,7 +788,7 @@
       <div class="record-row" data-id="${r.id}">
         <div class="record-main">
           <div class="record-name">
-            ${escapeHtml(r.donor_name)}
+            ${r.donor_name ? escapeHtml(r.donor_name) : '<span style="opacity:.55;font-weight:400">（未填名称）</span>'}
             ${r.is_anonymous ? '<span class="anon-badge">匿名</span>' : ''}
           </div>
           <div class="record-meta">
