@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>捐赠管理后台</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:   #FF4D2E;
+      --ink:      #111;
+      --muted:    #888;
+      --border:   #e8e8e8;
+      --bg:       #fff;
+      --hover-bg: #fafafa;
+      --danger:   #d63b2f;
+      --ok:       #17845a;
+    }
+
+    body {
+      font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a, button { -webkit-tap-highlight-color: transparent; }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: clamp(40px, 9vw, 64px) 24px 80px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(30px, 7vw, 40px);
+      line-height: 1.15;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 36px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    /* ── Login screen ── */
+    .login-box { max-width: 360px; }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="number"],
+    input[type="date"],
+    select {
+      font-family: inherit;
+      font-size: 14px;
+      padding: 11px 13px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #fff;
+      color: var(--ink);
+      width: 100%;
+      transition: border-color .15s;
+    }
+
+    input:focus, select:focus, button:focus-visible {
+      outline: none;
+      border-color: var(--accent);
+    }
+    button:focus-visible { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent); }
+
+    .btn {
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 11px 20px;
+      border-radius: 9px;
+      border: 1px solid var(--ink);
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .btn:hover { opacity: .85; }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+    .btn-outline {
+      background: none;
+      color: var(--ink);
+      border: 1px solid var(--border);
+    }
+
+    .btn-danger {
+      border-color: var(--danger);
+      color: var(--danger);
+      background: none;
+    }
+    .btn-danger:hover { background: #fdf1f0; }
+
+    .btn-small {
+      font-size: 12px;
+      padding: 7px 12px;
+      border-radius: 7px;
+    }
+
+    .msg {
+      font-size: 13px;
+      padding: 10px 13px;
+      border-radius: 9px;
+      margin-bottom: 16px;
+    }
+    .msg.error { background: #fdf1f0; color: var(--danger); }
+    .msg.ok    { background: #eefaf4; color: var(--ok); }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    /* ── Form ── */
+    .form-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 36px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .form-grid .span-2 { grid-column: 1 / -1; }
+
+    @media (max-width: 480px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    /* ── Records list ── */
+    .records { display: flex; flex-direction: column; gap: 8px; }
+
+    .record-row {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .record-main { flex: 1; min-width: 180px; }
+    .record-name { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+    .record-meta { font-size: 12px; color: var(--muted); display: flex; flex-wrap: wrap; gap: 8px; }
+    .record-meta .amt { color: var(--ink); font-weight: 500; }
+    .record-note { font-size: 12px; color: #bbb; margin-top: 4px; }
+
+    .record-actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .empty-state {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 24px 0;
+      text-align: center;
+    }
+
+    .search-row { margin-bottom: 18px; }
+
+    .hint {
+      font-size: 12px;
+      color: #bbb;
+      margin-top: 6px;
+    }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── Login screen ── -->
+  <section id="login-view" hidden>
+    <p class="eyebrow">Admin</p>
+    <h1>管理登录</h1>
+    <p class="subtitle">输入管理员密码以管理捐赠排行榜数据</p>
+
+    <div id="login-msg"></div>
+
+    <form id="login-form" class="login-box">
+      <div class="field">
+        <label for="login-password">管理员密码</label>
+        <input type="password" id="login-password" autocomplete="current-password" required />
+      </div>
+      <button type="submit" class="btn" id="login-submit">登录</button>
+    </form>
+  </section>
+
+  <!-- ── Dashboard ── -->
+  <section id="dashboard-view" hidden>
+    <div class="topbar">
+      <div>
+        <p class="eyebrow">Admin</p>
+        <h1>捐赠管理</h1>
+      </div>
+      <button class="btn btn-outline btn-small" id="logout-btn">退出登录</button>
+    </div>
+    <p class="subtitle">添加、追加或修改捐赠记录，排行榜会自动按总金额排序。</p>
+
+    <div id="dash-msg"></div>
+
+    <div class="form-card">
+      <span class="label" id="form-title">添加捐赠记录</span>
+      <form id="donation-form">
+        <input type="hidden" id="record-id" value="" />
+        <div class="form-grid">
+          <div class="field">
+            <label for="donor-name">捐赠者名称</label>
+            <input type="text" id="donor-name" required placeholder="例如：张三" />
+          </div>
+          <div class="field">
+            <label for="channel">捐赠渠道</label>
+            <input type="text" id="channel" list="channel-options" required placeholder="例如：微信支付" />
+            <datalist id="channel-options">
+              <option value="微信支付"></option>
+              <option value="支付宝"></option>
+              <option value="爱发电"></option>
+            </datalist>
+          </div>
+          <div class="field">
+            <label for="amount">金额（元）</label>
+            <input type="number" id="amount" min="0.01" step="0.01" required placeholder="0.00" />
+          </div>
+          <div class="field">
+            <label for="created-at">日期（可选）</label>
+            <input type="date" id="created-at" />
+          </div>
+          <div class="field span-2">
+            <label for="note">备注（可选）</label>
+            <input type="text" id="note" placeholder="留言 / 备注" />
+          </div>
+        </div>
+        <p class="hint">同一「捐赠者名称」多次添加会自动合并到排行榜同一人名下，显示总金额并可展开明细——用于追加捐赠。</p>
+        <div class="form-actions">
+          <button type="submit" class="btn" id="form-submit">添加记录</button>
+          <button type="button" class="btn btn-outline" id="form-cancel" hidden>取消编辑</button>
+        </div>
+      </form>
+    </div>
+
+    <hr>
+
+    <span class="label">全部记录</span>
+    <div class="search-row">
+      <input type="text" id="search-input" placeholder="按捐赠者名称搜索…" />
+    </div>
+    <div class="records" id="records-list">
+      <div class="empty-state">加载中…</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  const loginView = document.getElementById('login-view');
+  const dashboardView = document.getElementById('dashboard-view');
+  const loginForm = document.getElementById('login-form');
+  const loginMsg = document.getElementById('login-msg');
+  const dashMsg = document.getElementById('dash-msg');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  const donationForm = document.getElementById('donation-form');
+  const recordIdInput = document.getElementById('record-id');
+  const donorNameInput = document.getElementById('donor-name');
+  const channelInput = document.getElementById('channel');
+  const amountInput = document.getElementById('amount');
+  const createdAtInput = document.getElementById('created-at');
+  const noteInput = document.getElementById('note');
+  const formTitle = document.getElementById('form-title');
+  const formSubmit = document.getElementById('form-submit');
+  const formCancel = document.getElementById('form-cancel');
+  const recordsList = document.getElementById('records-list');
+  const searchInput = document.getElementById('search-input');
+
+  let allRecords = [];
+
+  function showMsg(el, text, type) {
+    el.innerHTML = text ? `<div class="msg ${type}">${escapeHtml(text)}</div>` : '';
+  }
+
+  function escapeHtml(str) {
+    return String(str ?? '').replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function formatAmount(n) {
+    return '¥' + Number(n).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  }
+
+  async function checkAuth() {
+    try {
+      const res = await fetch('/api/auth/status');
+      const data = await res.json();
+      if (data.loggedIn) {
+        loginView.hidden = true;
+        dashboardView.hidden = false;
+        loadRecords();
+      } else {
+        loginView.hidden = false;
+        dashboardView.hidden = true;
+      }
+    } catch {
+      loginView.hidden = false;
+      dashboardView.hidden = true;
+      showMsg(loginMsg, '无法连接服务器，请检查网络后重试', 'error');
+    }
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submitBtn = document.getElementById('login-submit');
+    submitBtn.disabled = true;
+    showMsg(loginMsg, '', '');
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: document.getElementById('login-password').value })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '登录失败');
+      document.getElementById('login-password').value = '';
+      checkAuth();
+    } catch (err) {
+      showMsg(loginMsg, err.message, 'error');
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+
+  logoutBtn.addEventListener('click', async () => {
+    await fetch('/api/auth/logout', { method: 'POST' });
+    checkAuth();
+  });
+
+  function resetForm() {
+    donationForm.reset();
+    recordIdInput.value = '';
+    formTitle.textContent = '添加捐赠记录';
+    formSubmit.textContent = '添加记录';
+    formCancel.hidden = true;
+  }
+
+  formCancel.addEventListener('click', resetForm);
+
+  donationForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    formSubmit.disabled = true;
+    showMsg(dashMsg, '', '');
+
+    const payload = {
+      donor_name: donorNameInput.value.trim(),
+      channel: channelInput.value.trim(),
+      amount: Number(amountInput.value),
+      note: noteInput.value.trim(),
+      created_at: createdAtInput.value ? new Date(createdAtInput.value).toISOString() : undefined
+    };
+
+    const id = recordIdInput.value;
+    const url = id ? `/api/admin/donations/${id}` : '/api/admin/donations';
+    const method = id ? 'PUT' : 'POST';
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '保存失败');
+      showMsg(dashMsg, id ? '记录已更新' : '记录已添加', 'ok');
+      resetForm();
+      loadRecords();
+    } catch (err) {
+      if (err.message.includes('未登录')) { checkAuth(); return; }
+      showMsg(dashMsg, err.message, 'error');
+    } finally {
+      formSubmit.disabled = false;
+    }
+  });
+
+  function editRecord(record) {
+    recordIdInput.value = record.id;
+    donorNameInput.value = record.donor_name;
+    channelInput.value = record.channel;
+    amountInput.value = record.amount;
+    noteInput.value = record.note || '';
+    const d = new Date(record.created_at);
+    createdAtInput.value = isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
+    formTitle.textContent = '编辑捐赠记录';
+    formSubmit.textContent = '保存修改';
+    formCancel.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function deleteRecord(id) {
+    if (!confirm('确定要删除这条捐赠记录吗？此操作不可撤销。')) return;
+    try {
+      const res = await fetch(`/api/admin/donations/${id}`, { method: 'DELETE' });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || '删除失败');
+      showMsg(dashMsg, '记录已删除', 'ok');
+      loadRecords();
+    } catch (err) {
+      if (err.message.includes('未登录')) { checkAuth(); return; }
+      showMsg(dashMsg, err.message, 'error');
+    }
+  }
+
+  function renderRecords() {
+    const q = searchInput.value.trim().toLowerCase();
+    const filtered = q
+      ? allRecords.filter((r) => r.donor_name.toLowerCase().includes(q))
+      : allRecords;
+
+    if (filtered.length === 0) {
+      recordsList.innerHTML = `<div class="empty-state">${q ? '没有匹配的记录' : '还没有任何捐赠记录，先在上方添加一条吧'}</div>`;
+      return;
+    }
+
+    recordsList.innerHTML = filtered.map((r) => `
+      <div class="record-row" data-id="${r.id}">
+        <div class="record-main">
+          <div class="record-name">${escapeHtml(r.donor_name)}</div>
+          <div class="record-meta">
+            <span class="amt">${formatAmount(r.amount)}</span>
+            <span>${escapeHtml(r.channel)}</span>
+            <span>${formatDate(r.created_at)}</span>
+          </div>
+          ${r.note ? `<div class="record-note">${escapeHtml(r.note)}</div>` : ''}
+        </div>
+        <div class="record-actions">
+          <button class="btn btn-outline btn-small" data-action="edit" data-id="${r.id}">编辑</button>
+          <button class="btn btn-danger btn-small" data-action="delete" data-id="${r.id}">删除</button>
+        </div>
+      </div>
+    `).join('');
+
+    recordsList.querySelectorAll('[data-action="edit"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const record = allRecords.find((r) => String(r.id) === btn.dataset.id);
+        if (record) editRecord(record);
+      });
+    });
+    recordsList.querySelectorAll('[data-action="delete"]').forEach((btn) => {
+      btn.addEventListener('click', () => deleteRecord(btn.dataset.id));
+    });
+  }
+
+  searchInput.addEventListener('input', renderRecords);
+
+  async function loadRecords() {
+    try {
+      const res = await fetch('/api/admin/donations');
+      if (res.status === 401) { checkAuth(); return; }
+      if (!res.ok) throw new Error('加载失败');
+      allRecords = await res.json();
+      renderRecords();
+    } catch (err) {
+      recordsList.innerHTML = `<div class="empty-state">加载失败：${escapeHtml(err.message)}</div>`;
+    }
+  }
+
+  checkAuth();
+</script>
+</body>
+</html>

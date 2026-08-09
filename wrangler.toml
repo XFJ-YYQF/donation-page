@@ -1,0 +1,15 @@
+name = "donation-page"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "."
+
+# D1 database binding — replace database_id with the ID printed by:
+#   wrangler d1 create donation_db
+[[d1_databases]]
+binding = "DB"
+database_name = "donation_db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+# Secrets (do NOT put these here — set them with `wrangler pages secret put`):
+#   ADMIN_PASSWORD   — the password used to log into /admin.html
+#   SESSION_SECRET   — (optional) separate key for signing session cookies;
+#                      falls back to ADMIN_PASSWORD if not set

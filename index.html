@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>支持我的创作</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,6 +20,8 @@
       --hover-bg: #fafafa;
     }
 
+    html { -webkit-text-size-adjust: 100%; }
+
     body {
       font-family: 'DM Sans', 'Noto Sans SC', sans-serif;
       background: var(--bg);
@@ -28,11 +30,13 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    a, button { -webkit-tap-highlight-color: transparent; }
+
     /* ── Layout ── */
     .page {
       max-width: 520px;
       margin: 0 auto;
-      padding: 72px 24px 96px;
+      padding: clamp(44px, 11vw, 72px) 24px 80px;
     }
 
     /* ── Stagger animation ── */
@@ -41,16 +45,26 @@
       transform: translateY(16px);
       animation: up .5s ease forwards;
     }
-    .page > *:nth-child(1) { animation-delay: .00s }
-    .page > *:nth-child(2) { animation-delay: .06s }
-    .page > *:nth-child(3) { animation-delay: .12s }
-    .page > *:nth-child(4) { animation-delay: .18s }
-    .page > *:nth-child(5) { animation-delay: .24s }
-    .page > *:nth-child(6) { animation-delay: .30s }
-    .page > *:nth-child(7) { animation-delay: .36s }
+    .page > *:nth-child(1)  { animation-delay: .00s }
+    .page > *:nth-child(2)  { animation-delay: .05s }
+    .page > *:nth-child(3)  { animation-delay: .10s }
+    .page > *:nth-child(4)  { animation-delay: .15s }
+    .page > *:nth-child(5)  { animation-delay: .20s }
+    .page > *:nth-child(6)  { animation-delay: .25s }
+    .page > *:nth-child(7)  { animation-delay: .30s }
+    .page > *:nth-child(8)  { animation-delay: .34s }
+    .page > *:nth-child(9)  { animation-delay: .38s }
+    .page > *:nth-child(10) { animation-delay: .42s }
+    .page > *:nth-child(11) { animation-delay: .46s }
+    .page > *:nth-child(12) { animation-delay: .50s }
+    .page > *:nth-child(13) { animation-delay: .54s }
 
     @keyframes up {
       to { opacity: 1; transform: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .page > * { animation: none; opacity: 1; transform: none; }
     }
 
     /* ── Header ── */
@@ -65,7 +79,7 @@
 
     h1 {
       font-family: 'DM Serif Display', serif;
-      font-size: clamp(38px, 9vw, 56px);
+      font-size: clamp(36px, 9vw, 56px);
       line-height: 1.1;
       letter-spacing: -.02em;
       color: var(--ink);
@@ -82,7 +96,37 @@
       line-height: 1.75;
       color: var(--muted);
       font-weight: 300;
-      margin-bottom: 52px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Mascot images ── */
+    .mascot-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .mascot {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #f6f6f6;
+      aspect-ratio: 1 / 1;
+    }
+
+    .mascot img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      transition: transform .35s ease;
+    }
+
+    .mascot:hover img { transform: scale(1.04); }
+
+    @media (max-width: 380px) {
+      .mascot-row { gap: 8px; }
     }
 
     /* ── Rule ── */
@@ -220,6 +264,137 @@
     .link-chevron { color: #ccc; font-size: 18px; flex-shrink: 0; transition: color .15s, transform .15s; }
     .link-item:hover .link-chevron { color: var(--accent); transform: translateX(2px); }
 
+    /* ── Leaderboard ── */
+    .board {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 56px;
+    }
+
+    .board-state {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 18px 12px;
+      text-align: center;
+    }
+
+    .board-row {
+      padding: 14px 12px;
+      border-radius: 10px;
+      transition: background .15s;
+    }
+
+    .board-row:hover { background: var(--hover-bg); }
+
+    .board-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+    }
+
+    .board-rank {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #f2f2f2;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .board-rank.r1 { background: #FFF0EB; color: var(--accent); font-weight: 700; }
+    .board-rank.r2 { background: #F1F1F1; color: #666; font-weight: 700; }
+    .board-rank.r3 { background: #FBF2E6; color: #B5793A; font-weight: 700; }
+
+    .board-main { flex: 1; min-width: 0; }
+
+    .board-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 5px;
+      word-break: break-word;
+    }
+
+    .board-sub {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .board-amount {
+      font-weight: 500;
+      color: var(--ink);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .board-channel-tag {
+      background: #f2f2f2;
+      color: var(--muted);
+      padding: 2px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+    }
+
+    .board-more-toggle {
+      border: none;
+      background: none;
+      padding: 4px 0;
+      font-size: 12px;
+      color: var(--accent);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-family: inherit;
+    }
+
+    .board-more-toggle .chev {
+      display: inline-block;
+      font-size: 12px;
+      transition: transform .2s ease;
+    }
+    .board-more-toggle[aria-expanded="true"] .chev { transform: rotate(90deg); }
+
+    .board-records {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .board-record {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 4px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .board-record .rec-amount {
+      color: var(--ink);
+      font-weight: 500;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .board-record .rec-note {
+      flex-basis: 100%;
+      color: #bbb;
+      font-size: 11px;
+    }
+
     /* ── Footer ── */
     footer {
       font-size: 13px;
@@ -239,6 +414,9 @@
       60%      { transform: scale(1) }
       80%      { transform: scale(1.15) }
     }
+    @media (prefers-reduced-motion: reduce) {
+      .heart { animation: none; }
+    }
 
     /* ── Site footer ── */
     .site-footer {
@@ -254,6 +432,8 @@
     .site-footer-links {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 6px;
     }
 
@@ -296,6 +476,15 @@
     }
 
     .powered a:hover { color: var(--accent); }
+
+    /* ── Small-screen refinements ── */
+    @media (max-width: 380px) {
+      .page { padding-left: 18px; padding-right: 18px; }
+      .desc { margin-bottom: 24px; }
+      hr { margin-bottom: 26px; }
+      .qr-row, .link-list, .board { margin-bottom: 40px; }
+      .qr-img { width: 128px; height: 128px; }
+    }
   </style>
 </head>
 <body>
@@ -310,6 +499,15 @@
     我是 <strong style="color:var(--ink);font-weight:500">Minecraft雪峰君</strong>，独立创作者。<br>
     所有内容免费开放——如果对你有帮助，欢迎用任意金额支持我继续做下去。
   </p>
+
+  <div class="mascot-row">
+    <div class="mascot">
+      <img src="assets/img/mascot-broke.jpg" alt="没钱了" loading="lazy" />
+    </div>
+    <div class="mascot">
+      <img src="assets/img/mascot-pray.jpg" alt="求打赏" loading="lazy" />
+    </div>
+  </div>
 
   <hr>
   <p class="label">扫码赞赏</p>
@@ -393,6 +591,13 @@
 
   </div>
 
+  <hr>
+  <p class="label">捐赠排行榜</p>
+
+  <div class="board" id="board">
+    <div class="board-state">加载中…</div>
+  </div>
+
   <footer>
     感谢每一份支持 <span class="heart">♥</span><br>
     <!-- 👇 改成你的名字 -->
@@ -421,6 +626,15 @@
         GitHub
       </a>
 
+      <span class="site-footer-sep">·</span>
+
+      <a class="site-footer-link" href="/admin.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        管理
+      </a>
+
     </div>
 
     <p class="powered">
@@ -443,6 +657,89 @@
   }
   tryLoad('wechat-qr.png', 'wx-frame');
   tryLoad('alipay-qr.png', 'ali-frame');
+
+  /* ── Donation leaderboard ── */
+  function escapeHtml(str) {
+    return String(str ?? '').replace(/[&<>"']/g, (c) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  function formatAmount(n) {
+    return '¥' + Number(n).toLocaleString('zh-CN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function formatDate(iso) {
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  }
+
+  function renderBoard(list) {
+    const board = document.getElementById('board');
+
+    if (!Array.isArray(list) || list.length === 0) {
+      board.innerHTML = '<div class="board-state">还没有捐赠记录，成为第一位支持者吧 ✨</div>';
+      return;
+    }
+
+    board.innerHTML = list.map((entry, idx) => {
+      const rank = idx + 1;
+      const rankClass = rank === 1 ? 'r1' : rank === 2 ? 'r2' : rank === 3 ? 'r3' : '';
+      const hasMore = entry.count > 1;
+
+      const subHtml = hasMore
+        ? `<span class="board-amount">${formatAmount(entry.total)}</span>
+           <button class="board-more-toggle" data-idx="${idx}" aria-expanded="false">
+             含更多捐赠 · 共 ${entry.count} 笔<span class="chev">›</span>
+           </button>`
+        : `<span class="board-amount">${formatAmount(entry.total)}</span>
+           <span class="board-channel-tag">${escapeHtml(entry.latest_channel)}</span>`;
+
+      const recordsHtml = entry.records.map((r) => `
+        <div class="board-record">
+          <span>${escapeHtml(r.channel)} · ${formatDate(r.created_at)}</span>
+          <span class="rec-amount">${formatAmount(r.amount)}</span>
+          ${r.note ? `<span class="rec-note">${escapeHtml(r.note)}</span>` : ''}
+        </div>
+      `).join('');
+
+      return `
+        <div class="board-row">
+          <div class="board-inner">
+            <div class="board-rank ${rankClass}">${rank}</div>
+            <div class="board-main">
+              <div class="board-name">${escapeHtml(entry.donor_name)}</div>
+              <div class="board-sub">${subHtml}</div>
+              ${hasMore ? `<div class="board-records" id="records-${idx}" hidden>${recordsHtml}</div>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    board.querySelectorAll('.board-more-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const panel = document.getElementById(`records-${btn.dataset.idx}`);
+        const willOpen = panel.hidden;
+        panel.hidden = !willOpen;
+        btn.setAttribute('aria-expanded', String(willOpen));
+      });
+    });
+  }
+
+  async function loadLeaderboard() {
+    const board = document.getElementById('board');
+    try {
+      const res = await fetch('/api/leaderboard');
+      if (!res.ok) throw new Error('request failed');
+      renderBoard(await res.json());
+    } catch (e) {
+      board.innerHTML = '<div class="board-state">排行榜加载失败，请刷新重试</div>';
+    }
+  }
+
+  loadLeaderboard();
 </script>
 </body>
 </html>
