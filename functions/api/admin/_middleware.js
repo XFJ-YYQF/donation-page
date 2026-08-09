@@ -1,4 +1,4 @@
-import { verifySessionToken, getCookie, jsonResponse } from '../../../_lib/auth.js';
+import { verifySessionToken, getCookie, jsonResponse } from '../../_lib/auth.js';
 
 export async function onRequest({ request, env, next }) {
   const secret = env.SESSION_SECRET || env.ADMIN_PASSWORD || '';
