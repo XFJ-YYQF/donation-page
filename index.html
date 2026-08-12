@@ -197,7 +197,8 @@
     /* ── QR row ── */
     .qr-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      /* auto-fit 让二维码数量可变：2 个时和以前一样各占一半，加入更多额外渠道后自动换行 */
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 12px;
       margin-bottom: 44px;
     }
@@ -623,12 +624,13 @@
           </div>
           <div class="qr-img" id="wx-frame">
             <!--
-              把微信收款码图片命名为 wechat-qr.png 放入项目根目录即可自动显示
-              <img src="wechat-qr.png" alt="微信收款码" />
+              把微信收款码图片命名为 wechat-qr 放入项目根目录即可自动显示
+              支持 .webp / .png / .jpg / .jpeg，按此顺序自动探测
+              <img src="wechat-qr.webp" alt="微信收款码" />
             -->
             <div class="placeholder-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-              <code>wechat-qr.png</code>
+              <code>wechat-qr.*</code>
             </div>
           </div>
           <p class="qr-tip">微信扫一扫</p>
@@ -641,12 +643,13 @@
           </div>
           <div class="qr-img" id="ali-frame">
             <!--
-              把支付宝收款码图片命名为 alipay-qr.png 放入项目根目录即可自动显示
-              <img src="alipay-qr.png" alt="支付宝收款码" />
+              把支付宝收款码图片命名为 alipay-qr 放入项目根目录即可自动显示
+              支持 .webp / .png / .jpg / .jpeg，按此顺序自动探测
+              <img src="alipay-qr.webp" alt="支付宝收款码" />
             -->
             <div class="placeholder-icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-              <code>alipay-qr.png</code>
+              <code>alipay-qr.*</code>
             </div>
           </div>
           <p class="qr-tip">支付宝扫一扫</p>
@@ -690,10 +693,11 @@
 
       <div class="mascot-row" style="--i:12">
         <div class="mascot">
-          <img src="assets/img/mascot-broke.jpg" alt="没钱了" loading="lazy" />
+          <!-- 优先加载 .webp，不存在则自动回退到 .jpg，直接把对应格式的图片放进 assets/img/ 即可 -->
+          <img src="assets/img/mascot-broke.webp" alt="没钱了" loading="lazy" onerror="this.onerror=null;this.src='assets/img/mascot-broke.jpg';" />
         </div>
         <div class="mascot">
-          <img src="assets/img/mascot-pray.jpg" alt="求打赏" loading="lazy" />
+          <img src="assets/img/mascot-pray.webp" alt="求打赏" loading="lazy" onerror="this.onerror=null;this.src='assets/img/mascot-pray.jpg';" />
         </div>
       </div>
 
@@ -758,18 +762,77 @@
 </div>
 
 <script>
-  function tryLoad(src, frameId) {
-    const img = new Image();
-    img.onload = () => {
-      const f = document.getElementById(frameId);
-      f.innerHTML = '';
-      img.style.cssText = 'width:100%;height:100%;object-fit:contain';
-      f.appendChild(img);
-    };
-    img.src = src;
+  /* ── 收款二维码加载 ──
+     依次尝试下面这些后缀，用第一个能成功加载的图片（因此 webp / png / jpg 都可以直接使用，
+     放哪种格式的文件都不用改代码）。
+  */
+  const QR_EXT_CANDIDATES = ['webp', 'png', 'jpg', 'jpeg'];
+
+  function tryLoadQr(basePath, frameId, onAllFail) {
+    let i = 0;
+    function attempt() {
+      if (i >= QR_EXT_CANDIDATES.length) { if (onAllFail) onAllFail(); return; }
+      const ext = QR_EXT_CANDIDATES[i++];
+      const img = new Image();
+      img.onload = () => {
+        const f = document.getElementById(frameId);
+        if (!f) return;
+        f.innerHTML = '';
+        img.style.cssText = 'width:100%;height:100%;object-fit:contain';
+        f.appendChild(img);
+      };
+      img.onerror = attempt;
+      img.src = `${basePath}.${ext}`;
+    }
+    attempt();
   }
-  tryLoad('wechat-qr.png', 'wx-frame');
-  tryLoad('alipay-qr.png', 'ali-frame');
+
+  tryLoadQr('wechat-qr', 'wx-frame');
+  tryLoadQr('alipay-qr', 'ali-frame');
+
+  /* ── 额外收款二维码（可选）──
+     微信 / 支付宝之外，如果还想放其他收款方式（PayPal、USDT、其他平台收款码等），
+     在下面数组里加一项即可，不需要就留空数组 []。
+     每一项：
+       id    必填，同时也是图片文件名前缀。比如 id: 'paypal' 会依次尝试
+             paypal-qr.webp / paypal-qr.png / paypal-qr.jpg / paypal-qr.jpeg，
+             找到一个能加载的就显示，都没有就不显示这个二维码（不会留空白）。
+       name  必填，显示在二维码上方的名称
+       color 可选，名称文字颜色（十六进制），不填则使用主题色
+  */
+  const extraQrChannels = [
+    // { id: 'paypal', name: 'PayPal', color: '#003087' },
+    // { id: 'usdt',   name: 'USDT',   color: '#26A17B' },
+  ];
+
+  const qrPlaceholderSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>';
+
+  function renderExtraQrChannels() {
+    const row = document.querySelector('.qr-row');
+    if (!row) return;
+    extraQrChannels.forEach((ch) => {
+      if (!ch || !ch.id || !ch.name) return;
+      const frameId = `extra-qr-${ch.id}`;
+      const box = document.createElement('div');
+      box.className = 'qr-box';
+      box.innerHTML = `
+        <div class="qr-brand" style="color:${ch.color ? escapeHtml(ch.color) : 'var(--accent-dark)'}">
+          ${qrPlaceholderSvg}
+          ${escapeHtml(ch.name)}
+        </div>
+        <div class="qr-img" id="${frameId}">
+          <div class="placeholder-icon">
+            ${qrPlaceholderSvg}
+            <code>${escapeHtml(ch.id)}-qr.*</code>
+          </div>
+        </div>
+        <p class="qr-tip">扫码支持</p>
+      `;
+      row.appendChild(box);
+      tryLoadQr(`${ch.id}-qr`, frameId, () => box.remove());
+    });
+  }
+  renderExtraQrChannels();
 
   /* ── Donation leaderboard ── */
   function escapeHtml(str) {
