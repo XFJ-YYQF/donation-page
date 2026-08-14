@@ -196,18 +196,15 @@
 
     /* ── QR row ── */
     .qr-row {
-      display: grid;
-      /* auto-fit 让二维码数量可变：2 个时和以前一样各占一半，加入更多额外渠道后自动换行 */
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 44px;
     }
 
-    @media (max-width: 440px) {
-      .qr-row { grid-template-columns: 1fr; }
-    }
-
     .qr-box {
+      flex: 1 1 140px;
+      min-width: 140px;
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 22px;
@@ -219,6 +216,10 @@
       transform: translateY(-3px);
       border-color: transparent;
       box-shadow: var(--shadow);
+    }
+
+    @media (max-width: 440px) {
+      .qr-box { flex-basis: 100%; }
     }
 
     .qr-brand {
