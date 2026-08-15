@@ -252,7 +252,8 @@
 
     .qr-img img {
       width: 100%; height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: center;
       display: block;
     }
 
@@ -622,144 +623,30 @@
 
     <div class="col-main">
 
-      <p class="eyebrow" style="--i:0">Support my work</p>
+      <p class="eyebrow" id="eyebrow-text" style="--i:0">Support my work</p>
 
-      <p class="desc" style="--i:1">
-        <!-- 改成你自己的简介 / 感谢语 -->
-        我是 <strong>夜桜侵雪</strong>，独立创作者。<br>
-        如果对你有帮助，欢迎用任意金额支持我继续做下去。
-      </p>
+      <p class="desc" id="intro-text" style="--i:1"></p>
 
       <hr style="--i:2">
       <p class="label" style="--i:3">扫码赞赏</p>
 
-      <div class="qr-row" style="--i:4">
+      <div class="qr-row" id="qr-row" style="--i:4"></div>
 
-        <div class="qr-box">
-          <div class="qr-brand wx">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-3.895-6.348-7.596-6.348zm-2.906 3.8c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18A1.17 1.17 0 0 1 4.623 7.17c0-.65.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18 1.17 1.17 0 0 1-1.162-1.18c0-.65.52-1.18 1.162-1.18zm2.34 4.879c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 0 1 .178-.554C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.934 2.555c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972zm4.947 0c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972z"/></svg>
-            微信支付
-          </div>
-          <div class="qr-img" id="wx-frame">
-            <!--
-              把微信收款码图片命名为 wechat-qr 放入项目根目录即可自动显示
-              支持 .webp / .png / .jpg / .jpeg，按此顺序自动探测
-              <img src="wechat-qr.webp" alt="微信收款码" />
-            -->
-            <div class="placeholder-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-              <code>wechat-qr.*</code>
-            </div>
-          </div>
-          <p class="qr-tip">微信扫一扫</p>
-        </div>
-
-        <div class="qr-box">
-          <div class="qr-brand ali">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.422 15.358c-3.83-1.153-6.055-1.84-7.766-2.358.802-1.422 1.328-3.042 1.526-4.817H18V6.817h-4.002V5h-2.443v1.817H7.578V8.183h6.607c-.175 1.367-.56 2.61-1.11 3.658-1.4-.38-2.96-.722-4.612-.837C5.196 10.745 2 12.44 2 15.65 2 18.055 4.02 20 6.52 20c2.73 0 5.428-1.77 7.306-4.728 2.155.837 4.552 1.86 6.884 3.03L22 17.24a35.028 35.028 0 0 0-.578-.882zM6.52 18.124C4.98 18.124 4 17.074 4 15.65c0-1.768 1.593-2.9 3.558-2.69 1.418.155 2.75.526 3.988.96C9.98 16.8 8.22 18.124 6.52 18.124z"/></svg>
-            经营码
-          </div>
-          <div class="qr-img" id="ali-biz-frame">
-            <!--
-              把支付宝经营码图片命名为 alipay-biz-qr 放入项目根目录即可自动显示
-              支持 .webp / .png / .jpg / .jpeg，按此顺序自动探测
-              <img src="alipay-biz-qr.webp" alt="支付宝经营码" />
-            -->
-            <div class="placeholder-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-              <code>alipay-biz-qr.*</code>
-            </div>
-          </div>
-          <p class="qr-tip">支付宝扫一扫</p>
-        </div>
-
-        <div class="qr-box">
-          <div class="qr-brand ali">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.422 15.358c-3.83-1.153-6.055-1.84-7.766-2.358.802-1.422 1.328-3.042 1.526-4.817H18V6.817h-4.002V5h-2.443v1.817H7.578V8.183h6.607c-.175 1.367-.56 2.61-1.11 3.658-1.4-.38-2.96-.722-4.612-.837C5.196 10.745 2 12.44 2 15.65 2 18.055 4.02 20 6.52 20c2.73 0 5.428-1.77 7.306-4.728 2.155.837 4.552 1.86 6.884 3.03L22 17.24a35.028 35.028 0 0 0-.578-.882zM6.52 18.124C4.98 18.124 4 17.074 4 15.65c0-1.768 1.593-2.9 3.558-2.69 1.418.155 2.75.526 3.988.96C9.98 16.8 8.22 18.124 6.52 18.124z"/></svg>
-            经营收款单
-          </div>
-          <div class="qr-img" id="ali-order-frame">
-            <!--
-              把支付宝经营收款单图片命名为 alipay-order-qr 放入项目根目录即可自动显示
-              支持 .webp / .png / .jpg / .jpeg，按此顺序自动探测
-              <img src="alipay-order-qr.webp" alt="支付宝经营收款单" />
-            -->
-            <div class="placeholder-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-              <code>alipay-order-qr.*</code>
-            </div>
-          </div>
-          <p class="qr-tip">支付宝扫一扫</p>
-        </div>
-
-        <div class="qr-box">
-          <div class="qr-brand ali">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.422 15.358c-3.83-1.153-6.055-1.84-7.766-2.358.802-1.422 1.328-3.042 1.526-4.817H18V6.817h-4.002V5h-2.443v1.817H7.578V8.183h6.607c-.175 1.367-.56 2.61-1.11 3.658-1.4-.38-2.96-.722-4.612-.837C5.196 10.745 2 12.44 2 15.65 2 18.055 4.02 20 6.52 20c2.73 0 5.428-1.77 7.306-4.728 2.155.837 4.552 1.86 6.884 3.03L22 17.24a35.028 35.028 0 0 0-.578-.882zM6.52 18.124C4.98 18.124 4 17.074 4 15.65c0-1.768 1.593-2.9 3.558-2.69 1.418.155 2.75.526 3.988.96C9.98 16.8 8.22 18.124 6.52 18.124z"/></svg>
-            红包码
-          </div>
-          <div class="qr-img" id="ali-redpacket-frame">
-            <!--
-              把支付宝红包码图片命名为 alipay-redpacket-qr 放入项目根目录即可自动显示
-              支持 .webp / .png / .jpg / .jpeg，按此顺序自动探测
-              <img src="alipay-redpacket-qr.webp" alt="支付宝红包码" />
-            -->
-            <div class="placeholder-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>
-              <code>alipay-redpacket-qr.*</code>
-            </div>
-          </div>
-          <p class="qr-tip">支付宝扫一扫</p>
-          <div class="qr-reminder">
-            💡 建议先领<strong>红包</strong>，再用经营码 / 收款单捐赠，可以抵扣一部分金额，更划算～
-          </div>
-        </div>
-
+      <div id="links-section">
+        <hr style="--i:5">
+        <p class="label" style="--i:6">更多渠道</p>
+        <div class="link-list" id="link-list" style="--i:7"></div>
       </div>
 
-      <hr style="--i:5">
-      <p class="label" style="--i:6">更多渠道</p>
-
-      <div class="link-list" style="--i:7">
-
-        <!-- 将 YOUR_USERNAME 替换为你的爱发电用户名 -->
-        <a class="link-item" href="https://ifdian.net/a/MinecraftXFJ" target="_blank" rel="noopener">
-          <div class="link-dot">⚡</div>
-          <div class="link-info">
-            <div class="link-name">爱发电</div>
-            <div class="link-href">ifdian.net/a/MinecraftXFJ</div>
-          </div>
-          <span class="link-chevron">›</span>
-        </a>
-
+      <div id="usage-section">
+        <hr style="--i:8">
+        <p class="label" style="--i:9">捐款用途</p>
+        <ul class="usage-list" id="usage-list" style="--i:10"></ul>
       </div>
 
-      <hr style="--i:8">
-      <p class="label" style="--i:9">捐款用途</p>
-      <!-- 在下面 <li> 里列举捐款会用到哪里，增删条目即可 -->
-      <ul class="usage-list" style="--i:10">
-        <li>吃小零食喝小甜水</li>
-        <li>服务器与域名续费</li>
-        <li>买一些你知道我会穿什么的衣服</li>
-        <li>维持我的兴趣爱好</li>
-        <li>攒钱玩 kigurumi ！</li>
-        <li>SRS！！！</li>
-      </ul>
+      <footer id="footer-signature" style="--i:11"></footer>
 
-      <footer style="--i:11">
-        感谢每一份支持 <span class="heart">♥</span><br>
-        <!-- 改成你的名字 -->
-        — <strong>夜桜侵雪</strong>
-      </footer>
-
-      <div class="mascot-row" style="--i:12">
-        <div class="mascot">
-          <!-- 优先加载 .webp，不存在则自动回退到 .jpg，直接把对应格式的图片放进 assets/img/ 即可 -->
-          <img src="assets/img/mascot-broke.webp" alt="没钱了" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/img/mascot-broke.jpg';}else{this.closest('.mascot').style.display='none';}" />
-        </div>
-        <div class="mascot">
-          <img src="assets/img/mascot-pray.webp" alt="求打赏" loading="lazy" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/img/mascot-pray.jpg';}else{this.closest('.mascot').style.display='none';}" />
-        </div>
-      </div>
+      <div class="mascot-row" id="mascot-row" style="--i:12"></div>
 
     </div>
 
@@ -783,36 +670,7 @@
 
   <!-- ── Site footer ── -->
   <div class="site-footer">
-    <div class="site-footer-links">
-
-      <!-- href 改成你的个人主页，文字改成你的名字 -->
-      <a class="site-footer-link" href="https://minecraftxfj.top" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
-        夜桜侵雪
-      </a>
-
-      <span class="site-footer-sep">·</span>
-
-      <!-- href 改成你的 GitHub 仓库链接 -->
-      <a class="site-footer-link" href="https://github.com/XFJ-YYQF/donation-page" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/>
-        </svg>
-        GitHub
-      </a>
-
-      <span class="site-footer-sep">·</span>
-
-      <a class="site-footer-link" href="/admin.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-        </svg>
-        管理
-      </a>
-
-    </div>
+    <div class="site-footer-links" id="site-footer-links"></div>
 
     <p class="powered">
       Powered by <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a>
@@ -821,7 +679,25 @@
 
 </div>
 
+<script src="config.js"></script>
 <script>
+  const CFG = window.SITE_CONFIG || {};
+
+  /* ── 主题色（可选，config.js 里不填就用默认薄荷绿）── */
+  if (CFG.themeColor) {
+    const rootStyle = document.documentElement.style;
+    if (CFG.themeColor.accent) rootStyle.setProperty('--accent', CFG.themeColor.accent);
+    if (CFG.themeColor.accentDark) rootStyle.setProperty('--accent-dark', CFG.themeColor.accentDark);
+    if (CFG.themeColor.accentTint) rootStyle.setProperty('--accent-tint', CFG.themeColor.accentTint);
+  }
+
+  /* ── 页面标题 / 顶部小标签 / 简介 ── */
+  if (CFG.pageTitle) document.title = CFG.pageTitle;
+  const eyebrowEl = document.getElementById('eyebrow-text');
+  if (eyebrowEl) eyebrowEl.textContent = CFG.eyebrow || 'Support my work';
+  const introEl = document.getElementById('intro-text');
+  if (introEl) introEl.innerHTML = CFG.introHtml || '';
+
   /* ── 收款二维码加载 ──
      依次尝试下面这些后缀，用第一个能成功加载的图片（因此 webp / png / jpg 都可以直接使用，
      放哪种格式的文件都不用改代码）。
@@ -838,7 +714,7 @@
         const f = document.getElementById(frameId);
         if (!f) return;
         f.innerHTML = '';
-        img.style.cssText = 'width:100%;height:100%;object-fit:contain';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;object-position:center';
         f.appendChild(img);
       };
       img.onerror = attempt;
@@ -847,54 +723,135 @@
     attempt();
   }
 
-  tryLoadQr('wechat-qr', 'wx-frame');
-  tryLoadQr('alipay-biz-qr', 'ali-biz-frame');
-  tryLoadQr('alipay-order-qr', 'ali-order-frame');
-  tryLoadQr('alipay-redpacket-qr', 'ali-redpacket-frame');
-
-  /* ── 额外收款二维码（可选）──
-     微信 / 支付宝之外，如果还想放其他收款方式（PayPal、USDT、其他平台收款码等），
-     在下面数组里加一项即可，不需要就留空数组 []。
-     每一项：
-       id    必填，同时也是图片文件名前缀。比如 id: 'paypal' 会依次尝试
-             paypal-qr.webp / paypal-qr.png / paypal-qr.jpg / paypal-qr.jpeg，
-             找到一个能加载的就显示，都没有就不显示这个二维码（不会留空白）。
-       name  必填，显示在二维码上方的名称
-       color 可选，名称文字颜色（十六进制），不填则使用主题色
-  */
-  const extraQrChannels = [
-    // { id: 'paypal', name: 'PayPal', color: '#003087' },
-    // { id: 'usdt',   name: 'USDT',   color: '#26A17B' },
-  ];
+  const BRAND_ICONS = {
+    wx: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 0 1 .213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 0 0 .167-.054l1.903-1.114a.864.864 0 0 1 .717-.098 10.16 10.16 0 0 0 2.837.403c.276 0 .543-.027.811-.05-.857-2.578.157-4.972 1.932-6.446 1.703-1.415 3.882-1.98 5.853-1.838-.576-3.583-3.895-6.348-7.596-6.348zm-2.906 3.8c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18A1.17 1.17 0 0 1 4.623 7.17c0-.65.52-1.18 1.162-1.18zm5.813 0c.642 0 1.162.53 1.162 1.18a1.17 1.17 0 0 1-1.162 1.18 1.17 1.17 0 0 1-1.162-1.18c0-.65.52-1.18 1.162-1.18zm2.34 4.879c-1.797-.052-3.746.512-5.28 1.786-1.72 1.428-2.687 3.72-1.78 6.22.942 2.453 3.666 4.229 6.884 4.229.826 0 1.622-.12 2.361-.336a.722.722 0 0 1 .598.082l1.584.926a.272.272 0 0 0 .14.047c.134 0 .24-.111.24-.247 0-.06-.023-.12-.038-.177l-.327-1.233a.49.49 0 0 1 .178-.554C23.024 18.48 24 16.82 24 14.98c0-3.21-2.931-5.837-7.062-6.122zm-3.934 2.555c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972zm4.947 0c.529 0 .958.436.958.972a.966.966 0 0 1-.958.973.966.966 0 0 1-.958-.973c0-.536.43-.972.958-.972z"/></svg>',
+    ali: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.422 15.358c-3.83-1.153-6.055-1.84-7.766-2.358.802-1.422 1.328-3.042 1.526-4.817H18V6.817h-4.002V5h-2.443v1.817H7.578V8.183h6.607c-.175 1.367-.56 2.61-1.11 3.658-1.4-.38-2.96-.722-4.612-.837C5.196 10.745 2 12.44 2 15.65 2 18.055 4.02 20 6.52 20c2.73 0 5.428-1.77 7.306-4.728 2.155.837 4.552 1.86 6.884 3.03L22 17.24a35.028 35.028 0 0 0-.578-.882zM6.52 18.124C4.98 18.124 4 17.074 4 15.65c0-1.768 1.593-2.9 3.558-2.69 1.418.155 2.75.526 3.988.96C9.98 16.8 8.22 18.124 6.52 18.124z"/></svg>',
+  };
 
   const qrPlaceholderSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h2v2h-2zM18 14h2v2h-2zM14 18h2v2h-2zM18 18h2v2h-2z"/></svg>';
 
-  function renderExtraQrChannels() {
-    const row = document.querySelector('.qr-row');
+  /* ── 收款二维码渲染：全部读取 config.js 里的 qrChannels，增删改一个二维码只改配置文件即可 ── */
+  function renderQrChannels() {
+    const row = document.getElementById('qr-row');
     if (!row) return;
-    extraQrChannels.forEach((ch) => {
+    const channels = Array.isArray(CFG.qrChannels) ? CFG.qrChannels : [];
+    channels.forEach((ch, idx) => {
       if (!ch || !ch.id || !ch.name) return;
-      const frameId = `extra-qr-${ch.id}`;
+      const frameId = `qr-frame-${idx}`;
       const box = document.createElement('div');
       box.className = 'qr-box';
+      const brandIcon = ch.brand && BRAND_ICONS[ch.brand] ? BRAND_ICONS[ch.brand] : qrPlaceholderSvg;
+      const brandClass = ch.brand === 'wx' ? ' wx' : ch.brand === 'ali' ? ' ali' : '';
+      const nameStyle = ch.color ? ` style="color:${escapeHtml(ch.color)}"` : '';
       box.innerHTML = `
-        <div class="qr-brand" style="color:${ch.color ? escapeHtml(ch.color) : 'var(--accent-dark)'}">
-          ${qrPlaceholderSvg}
+        <div class="qr-brand${brandClass}"${nameStyle}>
+          ${brandIcon}
           ${escapeHtml(ch.name)}
         </div>
         <div class="qr-img" id="${frameId}">
           <div class="placeholder-icon">
             ${qrPlaceholderSvg}
-            <code>${escapeHtml(ch.id)}-qr.*</code>
+            <code>${escapeHtml(ch.id)}.*</code>
           </div>
         </div>
-        <p class="qr-tip">扫码支持</p>
+        <p class="qr-tip">${escapeHtml(ch.tip || '扫码支持')}</p>
+        ${ch.reminderHtml ? `<div class="qr-reminder">${ch.reminderHtml}</div>` : ''}
       `;
       row.appendChild(box);
-      tryLoadQr(`${ch.id}-qr`, frameId, () => box.remove());
+      tryLoadQr(ch.id, frameId, () => box.remove());
     });
   }
-  renderExtraQrChannels();
+  renderQrChannels();
+
+  /* ── 「更多渠道」链接列表：留空数组则整块隐藏 ── */
+  function renderLinks() {
+    const section = document.getElementById('links-section');
+    const list = document.getElementById('link-list');
+    if (!section || !list) return;
+    const links = Array.isArray(CFG.links) ? CFG.links : [];
+    if (links.length === 0) { section.remove(); return; }
+    list.innerHTML = links.map((l) => `
+      <a class="link-item" href="${escapeHtml(l.href || '#')}" target="_blank" rel="noopener">
+        <div class="link-dot">${l.icon ? escapeHtml(l.icon) : '🔗'}</div>
+        <div class="link-info">
+          <div class="link-name">${escapeHtml(l.name || '')}</div>
+          <div class="link-href">${escapeHtml(l.hrefLabel || '')}</div>
+        </div>
+        <span class="link-chevron">›</span>
+      </a>
+    `).join('');
+  }
+  renderLinks();
+
+  /* ── 「捐款用途」列表：留空数组则整块隐藏 ── */
+  function renderUsageList() {
+    const section = document.getElementById('usage-section');
+    const list = document.getElementById('usage-list');
+    if (!section || !list) return;
+    const items = Array.isArray(CFG.usageList) ? CFG.usageList : [];
+    if (items.length === 0) { section.remove(); return; }
+    list.innerHTML = items.map((t) => `<li>${escapeHtml(t)}</li>`).join('');
+  }
+  renderUsageList();
+
+  /* ── 页脚署名 ── */
+  function renderFooterSignature() {
+    const el = document.getElementById('footer-signature');
+    if (!el) return;
+    el.innerHTML = `感谢每一份支持 <span class="heart">♥</span><br>— <strong>${escapeHtml(CFG.footerName || '')}</strong>`;
+  }
+  renderFooterSignature();
+
+  /* ── 顶部装饰图（吉祥物）：留空数组则整块隐藏；优先 .webp，找不到自动回退 .jpg ── */
+  function renderMascots() {
+    const row = document.getElementById('mascot-row');
+    if (!row) return;
+    const items = Array.isArray(CFG.mascots) ? CFG.mascots : [];
+    if (items.length === 0) { row.remove(); return; }
+    row.innerHTML = items.map((m) => {
+      const id = escapeHtml(m.id);
+      const alt = escapeHtml(m.alt || '');
+      return `
+        <div class="mascot">
+          <img src="assets/img/${id}.webp" alt="${alt}" loading="lazy"
+               onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src='assets/img/${id}.jpg';}else{this.closest('.mascot').style.display='none';}" />
+        </div>
+      `;
+    }).join('');
+  }
+  renderMascots();
+
+  /* ── 页脚「个人主页 / GitHub / 管理」链接：主页和 GitHub 由 config.js 控制，不填就不显示 ── */
+  function renderFooterLinks() {
+    const el = document.getElementById('site-footer-links');
+    if (!el) return;
+    const fl = CFG.footerLinks || {};
+    const parts = [];
+    if (fl.homepage && fl.homepage.href) {
+      parts.push(`
+        <a class="site-footer-link" href="${escapeHtml(fl.homepage.href)}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          ${escapeHtml(fl.homepage.name || '主页')}
+        </a>
+      `);
+    }
+    if (fl.github && fl.github.href) {
+      parts.push(`
+        <a class="site-footer-link" href="${escapeHtml(fl.github.href)}" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          GitHub
+        </a>
+      `);
+    }
+    parts.push(`
+      <a class="site-footer-link" href="/admin.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        管理
+      </a>
+    `);
+    el.innerHTML = parts.map((p, i) => i === 0 ? p : `<span class="site-footer-sep">·</span>${p}`).join('');
+  }
+  renderFooterLinks();
 
   /* ── Donation leaderboard ── */
   function escapeHtml(str) {

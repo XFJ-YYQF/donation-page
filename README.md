@@ -9,8 +9,9 @@ ps.你就用你的 ai 吧，雪你完蛋了你知道吗？！！你还记得当�
 ## ✨ 功能特性
 
 - 📱 响应式设计：移动端单栏布局，桌面端（≥880px）自动切换为左右两栏（内容 + 常驻排行榜侧栏）
+- ⚙️ **`config.js` 单文件配置**：简介、主题色、二维码、外部渠道、捐款用途、装饰图、页脚链接等所有可自定义内容都集中在这一个文件里，不用碰 `index.html`
 - 🟢 微信支付收款二维码 + 支付宝**经营码 / 经营收款单 / 红包码**三合一，红包码下方带一条固定提示：建议先领红包再捐赠更划算；另支持自定义外部渠道链接（爱发电等）
-- ➕ **可选扩展更多收款二维码**：PayPal / USDT / 其他平台收款码等，在 `index.html` 里加一行配置即可，不配置就不显示
+- ➕ **可选扩展更多收款二维码**：PayPal / USDT / 其他平台收款码等，在 `config.js` 里加一项配置即可，不配置就不显示
 - 🖼 二维码 & 装饰图片均支持 **WebP**：按 `.webp → .png → .jpg → .jpeg` 顺序自动探测，放哪种格式的图都不用改代码
 - 🏆 **捐赠排行榜**：按总金额从高到低排序，同一人多次捐赠自动合并，显示「含更多捐赠」可展开明细
 - 🕶 **匿名捐赠**：捐赠者名称留空即自动匿名；排行榜显示为「匿名」，且**不会**与其他记录合并
@@ -26,6 +27,7 @@ ps.你就用你的 ai 吧，雪你完蛋了你知道吗？！！你还记得当�
 ```
 donation-page/
 ├── index.html                     # 公开捐赠页（含排行榜 + 累计金额展示）
+├── config.js                      # 页面文案 / 二维码 / 链接等所有可配置参数
 ├── admin.html                     # 后台管理页（密码登录 + 渠道管理）
 ├── wechat-qr.* / alipay-biz-qr.* / alipay-order-qr.* / alipay-redpacket-qr.*  # 收款二维码（.webp/.png/.jpg/.jpeg 均可）
 ├── assets/img/                    # 页面装饰图片
@@ -135,43 +137,58 @@ ADMIN_PASSWORD=你的本地测试密码 npx wrangler pages dev . --port 8788
 
 ## ⚙️ 个性化配置
 
-### 1. 基本信息 / 二维码 / 外部渠道
+页面上几乎所有能自定义的内容都集中在项目根目录的 **`config.js`** 一个文件里，改这一个文件就够了，不需要碰 `index.html`。改完保存、刷新页面即可看到效果。
 
-编辑 `index.html`，按 HTML 注释提示修改简介、署名、捐款用途列表，并将收款码图片放到项目根目录：
+### 1. 基本信息 / 简介 / 主题色
 
-- 微信：`wechat-qr`
-- 支付宝经营码：`alipay-biz-qr`
-- 支付宝经营收款单：`alipay-order-qr`
-- 支付宝红包码：`alipay-redpacket-qr`（下方固定展示「先领红包再捐赠更划算」的提示，文案可以直接改 HTML 里 `.qr-reminder` 那段文字）
+编辑 `config.js`：
 
-文件后缀支持 `.webp`、`.png`、`.jpg`、`.jpeg`，按此顺序自动探测，放哪种格式都行，文件名前缀保持一致即可自动显示。爱发电等链接在 `link-list` 区块修改或取消注释启用。
+- `pageTitle` 浏览器标签页标题
+- `eyebrow` 页面顶部小字标签
+- `introHtml` 简介 / 感谢语，支持 `<strong>` `<br>` 等简单 HTML
+- `footerName` 页面底部署名
+- `themeColor` 主题色（`accent` / `accentDark` / `accentTint`），默认是 `#39C5BB`，改这三个值即可整体换色（`admin.html` 的主题色仍在其自身 `:root` 里单独改）
 
-### 2. 装饰图片
+### 2. 收款二维码
 
-`assets/img/` 下的 `mascot-broke` / `mascot-pray` 是页面顶部的装饰配图，同样优先加载 `.webp`，不存在则自动回退到 `.jpg`。可直接替换为你自己的图片（保持文件名前缀，或同时修改 `index.html` 里的 `<img src>`）。
-
-### 3. 额外收款二维码（可选）
-
-除了微信 / 支付宝，如果还想放其他收款方式（PayPal、USDT、其他平台收款码等），编辑 `index.html` 里 `<script>` 开头的 `extraQrChannels` 数组，加一项即可：
+在 `config.js` 的 `qrChannels` 数组里增删改，想放几个放几个，页面会自动换行、最后一行不满时自动撑满：
 
 ```js
-const extraQrChannels = [
-  { id: 'paypal', name: 'PayPal', color: '#003087' },
-];
+qrChannels: [
+  { id: 'wechat-qr', name: '微信支付', brand: 'wx', tip: '微信扫一扫' },
+  { id: 'alipay-biz-qr', name: '经营码', brand: 'ali', tip: '支付宝扫一扫' },
+  { id: 'alipay-order-qr', name: '经营收款单', brand: 'ali', tip: '支付宝扫一扫' },
+  {
+    id: 'alipay-redpacket-qr',
+    name: '红包码',
+    brand: 'ali',
+    tip: '支付宝扫一扫',
+    reminderHtml: '💡 建议先领<strong>红包</strong>，再用经营码 / 收款单捐赠，可以抵扣一部分金额，更划算～',
+  },
+  // { id: 'paypal-qr', name: 'PayPal', color: '#003087', tip: '扫码支持' },
+],
 ```
 
-- `id` 必填，同时是图片文件名前缀：上面例子会依次尝试 `paypal-qr.webp` / `.png` / `.jpg` / `.jpeg`，找到即显示
-- `name` 必填，显示在二维码上方
-- `color` 可选，名称文字颜色，不填用主题色
-- 数组留空 `[]`（默认）就完全不显示，不需要额外配置就没有多余空位
+- `id` 必填，同时是图片文件名前缀，放在项目根目录：上面例子 `wechat-qr` 会依次尝试 `wechat-qr.webp` / `.png` / `.jpg` / `.jpeg`，找到即显示，都没有就显示占位框（不会报错）
+- `name` 必填，二维码上方名称
+- `brand` 可选，`'wx'`（微信绿色图标）或 `'ali'`（支付宝蓝色图标），不填用默认通用图标
+- `color` 可选，名称文字颜色，不填跟随 brand 配色 / 主题色
+- `tip` 可选，二维码下方小字提示，不填默认「扫码支持」
+- `reminderHtml` 可选，二维码下方额外提示框，支持简单 HTML
 
-想加几个就加几项，页面会自动换行排布，不用手动调整布局。
+### 3. 更多渠道 / 捐款用途
 
-### 4. 主题色
+`config.js` 里的 `links`（爱发电等外部渠道）和 `usageList`（捐款用途列表）都是数组，直接增删条目即可；留空数组 `[]` 会整块隐藏对应区块。
 
-主题色变量在 `index.html` 和 `admin.html` 的 `:root` 里（`--accent` / `--accent-dark` / `--accent-tint`），默认是 `#39C5BB`，改这三个值即可整体换色。
+### 4. 装饰图片
 
-### 5. 管理捐赠渠道
+`config.js` 里的 `mascots` 数组对应 `assets/img/` 下的装饰配图，`id` 是文件名前缀，优先加载 `.webp`，找不到自动回退 `.jpg`；留空数组 `[]` 会隐藏这一整行。想换图直接替换 `assets/img/` 下对应文件即可，不用改配置。
+
+### 5. 页脚链接
+
+`config.js` 里的 `footerLinks.homepage` / `footerLinks.github` 控制页面最底部的个人主页和 GitHub 链接，删掉对应字段就不显示；后台管理入口固定显示，不需要配置。
+
+### 6. 管理捐赠渠道
 
 登录 `/admin.html` 后，展开「管理捐赠渠道」面板：
 
