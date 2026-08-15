@@ -205,6 +205,8 @@
     .qr-box {
       flex: 1 1 140px;
       min-width: 140px;
+      max-width: 100%;
+      overflow: hidden;
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 22px;
@@ -239,8 +241,9 @@
     .qr-brand svg { width: 15px; height: 15px; }
 
     .qr-img {
-      width: 152px;
-      height: 152px;
+      width: 100%;
+      max-width: 152px;
+      aspect-ratio: 1 / 1;
       margin: 0 auto 12px;
       border-radius: 12px;
       background: var(--hover-bg);
@@ -612,7 +615,7 @@
       .desc { margin-bottom: 22px; }
       hr { margin-bottom: 26px; }
       .qr-row, .link-list, .usage-list { margin-bottom: 32px; }
-      .qr-img { width: 128px; height: 128px; }
+      .qr-img { max-width: 128px; }
       .stat-card { padding: 20px 18px; }
     }
   </style>
