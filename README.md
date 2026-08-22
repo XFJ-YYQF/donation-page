@@ -29,6 +29,7 @@ donation-page/
 ├── index.html                     # 公开捐赠页（含排行榜 + 累计金额展示）
 ├── config.js                      # 页面文案 / 二维码 / 链接等所有可配置参数
 ├── admin.html                     # 后台管理页（密码登录 + 渠道管理）
+├── _headers                       # Cloudflare Pages 响应头配置（安全头 + 静态资源缓存）
 ├── wechat-qr.* / alipay-biz-qr.* / alipay-order-qr.* / alipay-redpacket-qr.*  # 收款二维码（.webp/.png/.jpg/.jpeg 均可）
 ├── assets/img/                    # 页面装饰图片
 ├── functions/                     # Cloudflare Pages Functions（后端 API）
@@ -210,8 +211,19 @@ qrChannels: [
 
 - 管理员密码以 Cloudflare Secret 形式存储，不会出现在代码或仓库中
 - 登录后签发的会话是一个用 HMAC-SHA256 签名的 Cookie（`HttpOnly`、`Secure`、`SameSite=Strict`），7 天后自动过期，`/api/admin/*` 的所有请求都会校验签名和过期时间
+- 所有数据库查询都使用参数化绑定（`?` 占位符），不存在 SQL 注入风险；所有从数据库/配置渲染回页面的内容（捐赠者名称、备注、渠道名等）都经过转义后再插入 DOM，不存在 XSS 风险
+- `_headers` 文件为全站加了一层响应头加固：`Content-Security-Policy`、`X-Frame-Options: DENY`（防点击劫持）、`X-Content-Type-Options`、`Referrer-Policy`、`Permissions-Policy` 等；`/admin.html` 额外设置了 `noindex, nofollow` 防止被搜索引擎收录
 - 捐赠者名称留空即匿名：公开排行榜只显示「匿名」，后台列表也以匿名标记展示
 - 建议使用一个**独立于其他账号**的强密码，且不要把记录密码的文件提交到公开仓库
+- 登录接口 `/api/auth/login` 目前没有内置的暴力破解速率限制，建议在 Cloudflare 控制台给这个路径单独配置一条 **Rate Limiting** 规则（比如同一 IP 每分钟最多 5 次），这个防护放在 Cloudflare 边缘层面做比写在代码里更可靠
+
+## ⚡ 性能优化
+
+- 收款二维码 / 装饰图片都按实际显示尺寸重新采样压缩过（保留 WebP，视觉效果不变），体积合计减少了约 70%
+- Google Fonts 只请求页面实际用到的字重，去掉了从未使用过的字重文件，减少字体下载体积
+- 用内联 SVG favicon 替代默认的 `/favicon.ico`，避免每次访问都产生一次多余的 404 请求
+- `_headers` 文件给二维码图片、装饰图、`assets/*` 设置了一年期的强缓存（`immutable`），重复访问时浏览器直接读本地缓存，不再发请求；`config.js` 给了 5 分钟短缓存，兼顾性能和改完能较快生效；`/admin.html` 和 `/api/*` 保持不缓存，保证数据始终最新
+- 没有对 `index.html` / `admin.html` 做压缩混淆：这个项目本身没有构建步骤，仓库里的 HTML 就是直接部署的文件，压缩后的空白字符在 Cloudflare 的 Brotli/Gzip 传输压缩下本来也省不了多少实际流量，但会让以后手动改文件变得很难读，权衡下来不划算
 
 ---
 

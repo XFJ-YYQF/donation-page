@@ -1,0 +1,39 @@
+# Cloudflare Pages 原生支持的响应头配置文件，纯服务器层面生效，
+# 不改动任何页面代码/样式。规则从上到下按匹配的具体程度生效。
+
+# ── 全站安全响应头 ──
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; object-src 'none'
+  Cross-Origin-Opener-Policy: same-origin
+
+# ── 后台管理页 & 接口：始终不缓存，且禁止搜索引擎收录后台 ──
+/admin.html
+  Cache-Control: no-store
+  X-Robots-Tag: noindex, nofollow
+
+/api/*
+  Cache-Control: no-store
+
+# ── 二维码 / 装饰图片：文件名带内容特征，改图就是改文件名，可以放心长期缓存 ──
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# ── config.js 内容可能会改，缓存时间给短一点，兼顾性能和及时生效 ──
+/config.js
+  Cache-Control: public, max-age=300, must-revalidate
