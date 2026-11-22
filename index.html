@@ -143,6 +143,24 @@
       background: var(--hover-bg);
     }
 
+    .wishlist-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: -24px 0 40px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background .2s var(--ease), transform .2s var(--ease);
+    }
+    .wishlist-btn[hidden] { display: none; }
+    .wishlist-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
     /* ── Mascot images ── */
     .mascot-row {
       display: grid;
@@ -619,6 +637,7 @@
       .desc { margin-bottom: 22px; }
       hr { margin-bottom: 26px; }
       .qr-row, .link-list, .usage-list { margin-bottom: 32px; }
+      .wishlist-btn { margin: -20px 0 32px; }
       .qr-img { max-width: 128px; }
       .stat-card { padding: 20px 18px; }
     }
@@ -649,6 +668,7 @@
         <hr style="--i:8">
         <p class="label" style="--i:9">捐款用途</p>
         <ul class="usage-list" id="usage-list" style="--i:10"></ul>
+        <a class="wishlist-btn" id="wishlist-btn" href="#" target="_blank" rel="noopener" style="--i:10" hidden>🎁 心愿单</a>
       </div>
 
       <footer id="footer-signature" style="--i:11"></footer>
@@ -798,6 +818,11 @@
     const items = Array.isArray(CFG.usageList) ? CFG.usageList : [];
     if (items.length === 0) { section.remove(); return; }
     list.innerHTML = items.map((t) => `<li>${escapeHtml(t)}</li>`).join('');
+    const wl = document.getElementById('wishlist-btn');
+    if (wl && CFG.wishlistUrl) {
+      wl.href = CFG.wishlistUrl;
+      wl.hidden = false;
+    }
   }
   renderUsageList();
 

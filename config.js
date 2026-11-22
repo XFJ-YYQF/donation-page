@@ -68,9 +68,11 @@ window.SITE_CONFIG = {
     '服务器与域名续费',
     '买一些你知道我会穿什么的衣服',
     '维持我的兴趣爱好',
-    '攒钱玩 kigurumi ！',
     'SRS！！！',
   ],
+
+  /* 「捐款用途」下方的心愿单按钮链接，留空则不显示 */
+  wishlistUrl: 'https://wishlist.sakurasnow.cn/',
 
   /* 页面底部署名 */
   footerName: '夜桜侵雪',
